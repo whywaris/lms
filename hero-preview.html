@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hero Redesign — Panda Courses</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500;600&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    /* ── Reset ─────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    img { display: block; max-width: 100%; }
+    a { text-decoration: none; color: inherit; }
+
+    :root {
+      --bg:           #0A0812;
+      --p1:           #7c3aed;
+      --p2:           #a855f7;
+      --p3:           #c084fc;
+      --green:        #64dc96;
+      --glass-bg:     rgba(8, 6, 20, 0.84);
+      --glass-border: rgba(255, 255, 255, 0.085);
+      --dim:          rgba(255, 255, 255, 0.4);
+      --mid:          rgba(255, 255, 255, 0.66);
+    }
+
+    body {
+      background: var(--bg);
+      font-family: 'DM Sans', sans-serif;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    /* ── Hero shell ─────────────────────────────────── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    /* Dot-grid overlay */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(rgba(255,255,255,0.052) 1px, transparent 1px);
+      background-size: 28px 28px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── Orbs ───────────────────────────────────────── */
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+    }
+    /* Purple – top-left */
+    .orb-a {
+      width: 840px; height: 840px;
+      top: -300px; left: -220px;
+      background: radial-gradient(circle, rgba(124,58,237,0.21) 0%, transparent 58%);
+      filter: blur(64px);
+    }
+    /* Violet – top-right */
+    .orb-b {
+      width: 540px; height: 540px;
+      top: 0; right: -120px;
+      background: radial-gradient(circle, rgba(168,85,247,0.16) 0%, transparent 58%);
+      filter: blur(52px);
+    }
+    /* Green – bottom-center */
+    .orb-c {
+      width: 420px; height: 420px;
+      bottom: -100px; right: 28%;
+      background: radial-gradient(circle, rgba(100,220,150,0.09) 0%, transparent 60%);
+      filter: blur(64px);
+    }
+
+    /* ── Inner container ────────────────────────────── */
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 96px 64px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 54% 46%;
+      gap: 72px;
+      align-items: center;
+    }
+
+    /* ════════════════════════════════════
+       LEFT COLUMN
+    ════════════════════════════════════ */
+    .left { display: flex; flex-direction: column; }
+
+    /* Badge */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 18px 8px 11px;
+      border-radius: 100px;
+      border: 1px solid rgba(124,58,237,0.38);
+      background: rgba(124,58,237,0.1);
+      box-shadow: 0 0 18px rgba(124,58,237,0.14);
+      width: fit-content;
+      margin-bottom: 38px;
+
+      opacity: 0;
+      animation: slideUp 0.6s cubic-bezier(0.22,1,0.36,1) 0.08s forwards;
+    }
+
+    .pulse-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      flex-shrink: 0;
+      animation: dotPulse 2.2s ease-in-out infinite;
+    }
+
+    .badge-text {
+      font-size: 12.5px;
+      font-weight: 500;
+      letter-spacing: 0.025em;
+      color: rgba(255,255,255,0.82);
+    }
+
+    /* Headline */
+    .headline {
+      margin-bottom: 24px;
+      opacity: 0;
+      animation: slideUp 0.6s cubic-bezier(0.22,1,0.36,1) 0.18s forwards;
+    }
+
+    .hl {
+      display: block;
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(52px, 5.4vw, 78px);
+      line-height: 1.0;
+      letter-spacing: -2.5px;
+    }
+
+    .hl-white  { color: #fff; }
+
+    .hl-grad {
+      background: linear-gradient(118deg, var(--p3) 0%, var(--p2) 42%, var(--p1) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hl-stroke {
+      -webkit-text-stroke: 1.5px rgba(255,255,255,0.48);
+      color: transparent;
+    }
+
+    /* Subtext */
+    .subtext {
+      font-size: 15.5px;
+      font-weight: 300;
+      color: var(--dim);
+      line-height: 1.68;
+      max-width: 375px;
+      margin-bottom: 36px;
+      opacity: 0;
+      animation: slideUp 0.6s cubic-bezier(0.22,1,0.36,1) 0.28s forwards;
+    }
+
+    /* Trust bar */
+    .trust-bar {
+      display: flex;
+      gap: 9px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+      opacity: 0;
+      animation: slideUp 0.6s cubic-bezier(0.22,1,0.36,1) 0.36s forwards;
+    }
+
+    .t-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 14px;
+      border-radius: 100px;
+      border: 1px solid var(--glass-border);
+      background: rgba(255,255,255,0.038);
+    }
+
+    .t-icon {
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      border: 1px solid rgba(124,58,237,0.42);
+      background: rgba(124,58,237,0.16);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9.5px;
+      color: var(--p3);
+      flex-shrink: 0;
+      line-height: 1;
+    }
+
+    .t-label {
+      font-size: 12.5px;
+      font-weight: 400;
+      color: var(--mid);
+      white-space: nowrap;
+    }
+
+    /* CTAs */
+    .cta-row {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 42px;
+      opacity: 0;
+      animation: slideUp 0.6s cubic-bezier(0.22,1,0.36,1) 0.44s forwards;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 15px 30px;
+      border-radius: 12px;
+      background: linear-gradient(138deg, var(--p1), var(--p2));
+      color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      border: none;
+      cursor: pointer;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.12),
+        0 0 38px rgba(124,58,237,0.52),
+        0 0 76px rgba(124,58,237,0.22);
+      transition: box-shadow 0.25s ease, transform 0.18s ease;
+    }
+    .btn-primary:hover {
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.16),
+        0 0 52px rgba(124,58,237,0.72),
+        0 0 100px rgba(124,58,237,0.3);
+      transform: translateY(-2px);
+    }
+
+    .arrow {
+      display: inline-block;
+      font-size: 15px;
+      transition: transform 0.2s ease;
+    }
+    .btn-primary:hover .arrow { transform: translateX(4px); }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 15px 26px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: transparent;
+      color: rgba(255,255,255,0.62);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 400;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+    }
+    .btn-ghost:hover {
+      border-color: rgba(255,255,255,0.28);
+      color: rgba(255,255,255,0.92);
+      background: rgba(255,255,255,0.04);
+    }
+
+    /* Social proof */
+    .social {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      opacity: 0;
+      animation: slideUp 0.6s cubic-bezier(0.22,1,0.36,1) 0.52s forwards;
+    }
+
+    .avatar-stack { display: flex; }
+    .av {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      border: 2px solid var(--bg);
+      object-fit: cover;
+    }
+    .av + .av { margin-left: -10px; }
+
+    .social-count {
+      font-size: 13.5px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.84);
+      margin-bottom: 3px;
+    }
+    .social-rating {
+      font-size: 12px;
+      color: var(--dim);
+    }
+    .stars { color: #f59e0b; letter-spacing: 2px; }
+
+    /* ════════════════════════════════════
+       RIGHT COLUMN
+    ════════════════════════════════════ */
+    .right {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 44px 36px;
+      opacity: 0;
+      animation: slideUp 0.65s cubic-bezier(0.22,1,0.36,1) 0.24s forwards;
+    }
+
+    .frame-wrap {
+      position: relative;
+      width: 100%;
+      max-width: 450px;
+    }
+
+    /* Ambient glow */
+    .frame-glow {
+      position: absolute;
+      inset: -44px;
+      background: radial-gradient(
+        ellipse 85% 70% at 50% 58%,
+        rgba(124,58,237,0.3) 0%,
+        rgba(168,85,247,0.1) 38%,
+        transparent 68%
+      );
+      filter: blur(36px);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* Gradient-border frame */
+    .img-frame {
+      position: relative;
+      z-index: 1;
+      border-radius: 24px;
+      padding: 1.5px;
+      background: linear-gradient(
+        148deg,
+        rgba(124,58,237,0.7) 0%,
+        rgba(168,85,247,0.28) 48%,
+        rgba(255,255,255,0.05) 100%
+      );
+    }
+
+    .img-inner {
+      border-radius: 22.5px;
+      overflow: hidden;
+      background: #0f0d1c;
+      position: relative;
+    }
+
+    .hero-img {
+      width: 100%;
+      max-height: 570px;
+      object-fit: contain;
+      object-position: bottom center;
+      display: block;
+    }
+
+    /* Bottom-fade overlay */
+    .img-fade {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 38%;
+      background: linear-gradient(to top, #0A0812 0%, transparent 100%);
+      pointer-events: none;
+    }
+
+    /* ── Floating cards ─────────────────────────────── */
+    .fcard {
+      position: absolute;
+      z-index: 4;
+      background: var(--glass-bg);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      padding: 14px 20px;
+    }
+
+    .fc-num {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 24px;
+      letter-spacing: -0.5px;
+      color: #fff;
+      line-height: 1;
+      margin-bottom: 5px;
+    }
+    .fc-num.green { color: var(--green); }
+
+    .fc-lbl {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: rgba(255,255,255,0.4);
+    }
+
+    /* Card positions */
+    .fc-1 {
+      top: 14px;
+      left: -28px;
+      animation: floatY 5.2s ease-in-out infinite;
+    }
+    .fc-2 {
+      bottom: 54px;
+      right: -28px;
+      animation: floatY 5.2s ease-in-out 1.8s infinite;
+    }
+    .fc-3 {
+      bottom: 18px;
+      left: 22px;
+      border-radius: 100px;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      animation: floatY 5.2s ease-in-out 3.4s infinite;
+    }
+    .fc-3-text {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.76);
+      white-space: nowrap;
+    }
+
+    /* ── Keyframes ──────────────────────────────────── */
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(32px); }
+      to   { opacity: 1; transform: translateY(0);    }
+    }
+
+    @keyframes dotPulse {
+      0%   { box-shadow: 0 0 0 0   rgba(100,220,150,0.78); }
+      70%  { box-shadow: 0 0 0 9px rgba(100,220,150,0);    }
+      100% { box-shadow: 0 0 0 0   rgba(100,220,150,0);    }
+    }
+
+    @keyframes floatY {
+      0%, 100% { transform: translateY(0px);  }
+      50%       { transform: translateY(-9px); }
+    }
+  </style>
+</head>
+<body>
+
+  <section class="hero">
+
+    <!-- Background depth layer -->
+    <div class="orb orb-a"></div>
+    <div class="orb orb-b"></div>
+    <div class="orb orb-c"></div>
+
+    <div class="hero-inner">
+      <div class="hero-grid">
+
+        <!-- ═══════════ LEFT ═══════════ -->
+        <div class="left">
+
+          <!-- Badge -->
+          <div class="badge">
+            <span class="pulse-dot"></span>
+            <span class="badge-text">2,000+ Premium Courses</span>
+          </div>
+
+          <!-- Headline — 3 distinct lines -->
+          <h1 class="headline">
+            <span class="hl hl-white">Learn from</span>
+            <span class="hl hl-grad">the best</span>
+            <span class="hl hl-stroke">mentors.</span>
+          </h1>
+
+          <!-- Subtext -->
+          <p class="subtext">
+            Premium courses from the world's top mentors —<br>
+            at prices that don't make you think twice.
+          </p>
+
+          <!-- Trust bar -->
+          <div class="trust-bar">
+            <div class="t-pill">
+              <div class="t-icon">✓</div>
+              <span class="t-label">Trusted by 2k+</span>
+            </div>
+            <div class="t-pill">
+              <div class="t-icon">★</div>
+              <span class="t-label">4.9 Rating</span>
+            </div>
+            <div class="t-pill">
+              <div class="t-icon">∞</div>
+              <span class="t-label">Lifetime Access</span>
+            </div>
+          </div>
+
+          <!-- CTAs -->
+          <div class="cta-row">
+            <a href="/courses" class="btn-primary">
+              Explore All Courses <span class="arrow">→</span>
+            </a>
+            <a href="/how-to-buy" class="btn-ghost">
+              How to Buy
+            </a>
+          </div>
+
+          <!-- Social proof -->
+          <div class="social">
+            <div class="avatar-stack">
+              <img class="av" src="https://i.pravatar.cc/80?img=12" alt="" />
+              <img class="av" src="https://i.pravatar.cc/80?img=7"  alt="" />
+              <img class="av" src="https://i.pravatar.cc/80?img=47" alt="" />
+              <img class="av" src="https://i.pravatar.cc/80?img=33" alt="" />
+            </div>
+            <div>
+              <p class="social-count">2,000+ students already learning</p>
+              <p class="social-rating">
+                <span class="stars">★★★★★</span>&ensp;4.9 average rating
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ═══════════ RIGHT ═══════════ -->
+        <div class="right">
+          <div class="frame-wrap">
+
+            <!-- Purple ambient glow -->
+            <div class="frame-glow"></div>
+
+            <!-- Floating card 1 — top left, courses count -->
+            <div class="fcard fc-1">
+              <p class="fc-num">2,000+</p>
+              <p class="fc-lbl">Premium Courses</p>
+            </div>
+
+            <!-- Floating card 2 — bottom right, pricing -->
+            <div class="fcard fc-2">
+              <p class="fc-num green">$99</p>
+              <p class="fc-lbl">Lifetime Access</p>
+            </div>
+
+            <!-- Floating tag 3 — bottom left, live indicator -->
+            <div class="fcard fc-3">
+              <span class="pulse-dot"></span>
+              <span class="fc-3-text">New courses added weekly</span>
+            </div>
+
+            <!-- Image frame with gradient border -->
+            <div class="img-frame">
+              <div class="img-inner">
+                <img
+                  class="hero-img"
+                  src="https://pub-e028033287554cb7a1aa9e5cd747f106.r2.dev/hero%20image.png.webp"
+                  alt="Student"
+                />
+                <div class="img-fade"></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</body>
+</html>

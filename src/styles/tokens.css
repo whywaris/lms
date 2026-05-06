@@ -1,0 +1,80 @@
+:root {
+  /* Colors */
+  --color-primary: #6B4EFF;
+  --color-primary-pressed: #5438DB;
+  --color-brand-navy: #1A1A2E;
+
+  --color-canvas: #FFFFFF;
+  --color-surface: #F7F7F5;
+  --color-surface-soft: #FAFAF8;
+
+  --color-ink-deep: #0F0F0F;
+  --color-ink: #1A1A1A;
+  --color-charcoal: #2F2F2F;
+  --color-slate: #5A5A5A;
+  --color-steel: #8A8A8A;
+  --color-muted: #B0B0B0;
+
+  --color-hairline: #E8E8E5;
+  --color-hairline-soft: #F0F0ED;
+  --color-hairline-strong: #D0D0CC;
+
+  --color-on-dark: #FFFFFF;
+  --color-on-dark-muted: rgba(255,255,255,0.6);
+
+  /* Card Tints */
+  --color-tint-peach: #FFF0EB;
+  --color-tint-rose: #FFF0F3;
+  --color-tint-mint: #EEFAF4;
+  --color-tint-lavender: #F3F0FF;
+  --color-tint-sky: #EFF6FF;
+  --color-tint-yellow: #FFFBEB;
+  --color-tint-yellow-bold: #FFF176;
+
+  /* Badge Colors */
+  --color-badge-monthly-bg: #EEEDFE;
+  --color-badge-monthly-text: #3C3489;
+  --color-badge-lifetime-bg: #EAF3DE;
+  --color-badge-lifetime-text: #27500A;
+
+  /* Typography */
+  --font-sans: 'Inter', -apple-system, system-ui, 'Segoe UI', sans-serif;
+
+  --text-hero: 80px;
+  --text-display: 56px;
+  --text-h1: 48px;
+  --text-h2: 36px;
+  --text-h3: 28px;
+  --text-h4: 22px;
+  --text-h5: 18px;
+  --text-body: 16px;
+  --text-sm: 14px;
+  --text-caption: 13px;
+  --text-xs: 11px;
+
+  /* Border Radius */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+
+  /* Spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+
+  /* Shadows */
+  --shadow-sm: rgba(15,15,15,0.04) 0px 1px 2px 0px;
+  --shadow-md: rgba(15,15,15,0.08) 0px 4px 12px 0px;
+  --shadow-lg: rgba(15,15,15,0.20) 0px 24px 48px -8px;
+}
