@@ -53,7 +53,7 @@ export default async function BlogPostPage({
   let match
   const usedSlugs = new Set<string>()
 
-  processedContent = processedContent.replace(headingRegex, (fullMatch, tag, text) => {
+  processedContent = processedContent.replace(headingRegex, (fullMatch: string, tag, text) => {
     // Remove HTML tags from text if any
     const cleanText = text.replace(/<[^>]*>/g, '')
     // Create a slug for the ID
