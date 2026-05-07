@@ -50,7 +50,6 @@ export default async function BlogPostPage({
 
   // Regex to find h2 and h3 tags (more robust to attributes)
   const headingRegex = /<(h[23])(?:\s+[^>]*)?>(.*?)<\/h[23]>/g
-  let match
   const usedSlugs = new Set<string>()
 
   processedContent = processedContent.replace(headingRegex, (fullMatch: string, tag: string, text: string) => {

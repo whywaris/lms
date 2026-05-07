@@ -30,7 +30,7 @@ export default async function DashboardPage() {
     new Date(profile.plan_expires_at) < new Date()
 
   // Courses fetch — plan ke hisaab se
-  const query = supabase
+  let query = supabase
     .from('courses')
     .select('*')
     .eq('is_published', true)
@@ -38,10 +38,10 @@ export default async function DashboardPage() {
 
   // Monthly sirf monthly courses, Lifetime sab, No plan 0
   if (profile.plan === 'monthly') {
-    query.in('plan_access', ['monthly', 'both'])
+    query = query.in('plan_access', ['monthly', 'both'])
   } else if (profile.plan !== 'lifetime') {
     // Guest or No plan
-    query.eq('id', '00000000-0000-0000-0000-000000000000')
+    query = query.eq('id', '00000000-0000-0000-0000-000000000000')
   }
 
   const { data: courses } = await query
