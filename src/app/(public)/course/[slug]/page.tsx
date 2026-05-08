@@ -6,19 +6,47 @@ import PlanCards from '@/components/ui/PlanCards'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
-export async function generateMetadata({ 
-  params 
-}: { 
-  params: Promise<{ slug: string }> 
+export async function generateMetadata({
+  params
+}: {
+  params: Promise<{ slug: string }>
 }) {
   const { slug } = await params
   const supabase = await createClient()
   const { data: course } = await supabase
     .from('public_courses')
-    .select('course_name')
+    .select('course_name, short_description, image_url')
     .eq('slug', slug)
     .single()
-  return { title: course?.course_name || 'Course' }
+
+  const title = course?.course_name
+    ? `${course.course_name} | PandaCourses`
+    : 'Course | PandaCourses'
+  const description = course?.short_description?.slice(0, 155) || 'Buy this course on PandaCourses and get instant Mega/Google Drive access.'
+  const image = course?.image_url || 'https://pandacourses.com/og-default.jpg'
+  const url = `https://pandacourses.com/course/${slug}`
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title: course?.course_name || 'Course',
+      description,
+      url,
+      siteName: 'PandaCourses',
+      images: [{ url: image }],
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: course?.course_name || 'Course',
+      description,
+      images: [image],
+    },
+    alternates: {
+      canonical: url,
+    },
+  }
 }
 
 
