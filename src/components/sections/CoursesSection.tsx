@@ -149,6 +149,24 @@ export default async function CoursesSection() {
               ))}
             </div>
 
+            {/* View All Button */}
+            <div style={{ textAlign: 'center', marginTop: '40px' }}>
+              <Link href="/courses" style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                background: 'var(--color-ink-deep)',
+                color: 'white',
+                padding: '12px 28px',
+                borderRadius: 'var(--radius-md)',
+                fontSize: '14px',
+                fontWeight: '500',
+                textDecoration: 'none',
+                fontFamily: 'var(--font-sans)',
+              }}>
+                View All Courses →
+              </Link>
+            </div>
           </>
         ) : (
           <div style={{
