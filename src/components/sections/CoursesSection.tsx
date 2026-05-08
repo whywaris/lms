@@ -48,15 +48,6 @@ export default async function CoursesSection() {
           }}>
             Browse Our Courses
           </h2>
-          <Link href="/courses" style={{
-            fontSize: '14px',
-            fontWeight: '500',
-            color: 'var(--color-primary)',
-            textDecoration: 'none',
-            fontFamily: 'var(--font-sans)',
-          }}>
-            View All →
-          </Link>
         </div>
 
         {/* Courses Grid */}
