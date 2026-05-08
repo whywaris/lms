@@ -50,7 +50,7 @@ export default function RichTextEditor({ content, onChange }: Props) {
     }
     const currentHTML = editor.getHTML()
     if (content !== currentHTML && content !== '<p></p>' && currentHTML === '<p></p>') {
-      editor.commands.setContent(content, false)
+      editor.commands.setContent(content)
     }
   }, [content, editor])
 
