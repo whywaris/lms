@@ -3,7 +3,25 @@ import Navbar from '@/components/ui/Navbar'
 import Footer from '@/components/sections/Footer'
 import CoursesGrid from '@/components/sections/CoursesGrid'
 
-export const metadata = { title: 'All Courses' }
+export const metadata = {
+  title: 'All Courses — PandaCourses',
+  description: 'Browse 2000+ premium courses on YouTube automation, trading, dropshipping, freelancing, and more. Instant Mega/Google Drive access after purchase.',
+  openGraph: {
+    title: 'All Courses — PandaCourses',
+    description: 'Browse 2000+ premium courses. Instant access after purchase.',
+    url: 'https://pandacourses.com/courses',
+    siteName: 'PandaCourses',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'All Courses — PandaCourses',
+    description: 'Browse 2000+ premium courses. Instant access after purchase.',
+  },
+  alternates: {
+    canonical: 'https://pandacourses.com/courses',
+  },
+}
 
 export default async function CoursesPage() {
   const supabase = await createClient()
