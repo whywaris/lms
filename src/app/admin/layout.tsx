@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
+import BackToTop from '@/components/ui/BackToTop'
 
 export default async function AdminLayout({
   children,
@@ -19,5 +20,10 @@ export default async function AdminLayout({
 
   if (!profile || profile.role !== 'admin') redirect('/dashboard')
 
-  return <>{children}</>
+  return (
+    <>
+      {children}
+      <BackToTop />
+    </>
+  )
 }

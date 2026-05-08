@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import RichTextEditor from '@/components/admin/RichTextEditor'
 
@@ -77,6 +77,9 @@ export default function PublicCourseManager({ initialCourses }: Props) {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [search, setSearch] = useState('')
+  const [filterStatus, setFilterStatus] = useState<'all' | 'published' | 'draft'>('all')
+  const [currentPage, setCurrentPage] = useState(1)
+  const ITEMS_PER_PAGE = 20
 
   function openAdd() {
     setForm(emptyForm)
@@ -167,11 +170,24 @@ export default function PublicCourseManager({ initialCourses }: Props) {
     setCourses(courses.filter(c => c.id !== id))
   }
 
-  const filtered = courses.filter(c =>
-    c.course_name.toLowerCase().includes(search.toLowerCase()) ||
-    (c.mentor || '').toLowerCase().includes(search.toLowerCase()) ||
-    (c.category || '').toLowerCase().includes(search.toLowerCase())
-  )
+  const filtered = courses.filter(c => {
+    const matchSearch =
+      c.course_name.toLowerCase().includes(search.toLowerCase()) ||
+      (c.mentor || '').toLowerCase().includes(search.toLowerCase()) ||
+      (c.category || '').toLowerCase().includes(search.toLowerCase())
+
+    const matchStatus =
+      filterStatus === 'all' ||
+      (filterStatus === 'published' && c.is_published) ||
+      (filterStatus === 'draft' && !c.is_published)
+
+    return matchSearch && matchStatus
+  })
+
+  const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE)
+  const paginated = filtered.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE)
+
+  useEffect(() => { setCurrentPage(1) }, [search, filterStatus])
 
   return (
     <div>
@@ -185,6 +201,39 @@ export default function PublicCourseManager({ initialCourses }: Props) {
           onChange={(e) => setSearch(e.target.value)}
           style={{ ...inputStyle, width: '280px' }}
         />
+        {/* Status Filter Buttons */}
+        <div style={{ display: 'flex', gap: '6px' }}>
+          {(['all', 'published', 'draft'] as const).map((status) => (
+            <button
+              key={status}
+              onClick={() => setFilterStatus(status)}
+              style={{
+                height: '40px',
+                padding: '0 16px',
+                background: filterStatus === status
+                  ? 'var(--color-ink-deep)'
+                  : 'var(--color-canvas)',
+                color: filterStatus === status
+                  ? 'white'
+                  : 'var(--color-slate)',
+                border: '1px solid var(--color-hairline-strong)',
+                borderRadius: 'var(--radius-md)',
+                fontSize: '13px',
+                fontWeight: '500',
+                fontFamily: 'var(--font-sans)',
+                cursor: 'pointer',
+                textTransform: 'capitalize',
+              }}
+            >
+              {status === 'all'
+                ? `All (${courses.length})`
+                : status === 'published'
+                  ? `Published (${courses.filter(c => c.is_published).length})`
+                  : `Draft (${courses.filter(c => !c.is_published).length})`
+              }
+            </button>
+          ))}
+        </div>
         <button
           onClick={openAdd}
           style={{
@@ -406,13 +455,13 @@ export default function PublicCourseManager({ initialCourses }: Props) {
         </div>
 
         {filtered.length > 0 ? (
-          filtered.map((course, index) => (
+          paginated.map((course, index) => (
             <div
               key={course.id}
               style={{
                 display: 'grid',
                 gridTemplateColumns: '2fr 1.5fr 1fr 1fr 160px',
-                borderBottom: index === filtered.length - 1 ? 'none' : '1px solid var(--color-hairline-soft)',
+                borderBottom: index === paginated.length - 1 ? 'none' : '1px solid var(--color-hairline-soft)',
                 alignItems: 'center',
               }}
             >
@@ -472,6 +521,71 @@ export default function PublicCourseManager({ initialCourses }: Props) {
           </div>
         )}
       </div>
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '16px' }}>
+          <p style={{ fontSize: '13px', color: 'var(--color-steel)', fontFamily: 'var(--font-sans)', margin: '0' }}>
+            Showing {(currentPage - 1) * ITEMS_PER_PAGE + 1}–{Math.min(currentPage * ITEMS_PER_PAGE, filtered.length)} of {filtered.length}
+          </p>
+          <div style={{ display: 'flex', gap: '4px' }}>
+            <button
+              onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+              disabled={currentPage === 1}
+              style={{
+                height: '34px',
+                padding: '0 12px',
+                background: 'var(--color-canvas)',
+                border: '1px solid var(--color-hairline-strong)',
+                borderRadius: 'var(--radius-md)',
+                fontSize: '13px',
+                color: currentPage === 1 ? 'var(--color-muted)' : 'var(--color-slate)',
+                fontFamily: 'var(--font-sans)',
+                cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
+              }}
+            >
+              Previous
+            </button>
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+              <button
+                key={page}
+                onClick={() => setCurrentPage(page)}
+                style={{
+                  height: '34px',
+                  minWidth: '34px',
+                  padding: '0 8px',
+                  background: currentPage === page ? 'var(--color-ink-deep)' : 'var(--color-canvas)',
+                  color: currentPage === page ? 'white' : 'var(--color-slate)',
+                  border: '1px solid var(--color-hairline-strong)',
+                  borderRadius: 'var(--radius-md)',
+                  fontSize: '13px',
+                  fontFamily: 'var(--font-sans)',
+                  cursor: 'pointer',
+                }}
+              >
+                {page}
+              </button>
+            ))}
+            <button
+              onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+              disabled={currentPage === totalPages}
+              style={{
+                height: '34px',
+                padding: '0 12px',
+                background: 'var(--color-canvas)',
+                border: '1px solid var(--color-hairline-strong)',
+                borderRadius: 'var(--radius-md)',
+                fontSize: '13px',
+                color: currentPage === totalPages ? 'var(--color-muted)' : 'var(--color-slate)',
+                fontFamily: 'var(--font-sans)',
+                cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
+              }}
+            >
+              Next
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

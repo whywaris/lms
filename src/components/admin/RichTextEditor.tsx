@@ -5,7 +5,7 @@ import StarterKit from '@tiptap/starter-kit'
 import Link from '@tiptap/extension-link'
 import Underline from '@tiptap/extension-underline'
 import TextAlign from '@tiptap/extension-text-align'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 
 interface Props {
   content: string
@@ -40,9 +40,17 @@ export default function RichTextEditor({ content, onChange }: Props) {
     },
   })
 
+  const isFirstRender = useRef(true)
+
   useEffect(() => {
-    if (editor && content !== editor.getHTML()) {
-      editor.commands.setContent(content)
+    if (!editor) return
+    if (isFirstRender.current) {
+      isFirstRender.current = false
+      return
+    }
+    const currentHTML = editor.getHTML()
+    if (content !== currentHTML && content !== '<p></p>' && currentHTML === '<p></p>') {
+      editor.commands.setContent(content, false)
     }
   }, [content, editor])
 

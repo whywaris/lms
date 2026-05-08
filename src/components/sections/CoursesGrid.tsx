@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 
 interface Course {
@@ -22,6 +22,8 @@ export default function CoursesGrid({ courses, categories }: CoursesGridProps) {
   const [search, setSearch] = useState('')
   const [activeCategory, setActiveCategory] = useState('All')
   const [sort, setSort] = useState('newest')
+  const [currentPage, setCurrentPage] = useState(1)
+  const ITEMS_PER_PAGE = 20
 
   const filtered = (courses || [])
     .filter(c => {
@@ -34,6 +36,16 @@ export default function CoursesGrid({ courses, categories }: CoursesGridProps) {
       if (sort === 'az') return a.course_name.localeCompare(b.course_name)
       return new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
     })
+
+  const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE)
+  const paginated = filtered.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  )
+
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [search, activeCategory, sort])
 
   return (
     <div style={{ background: 'var(--color-surface)', minHeight: '60vh' }}>
@@ -126,10 +138,10 @@ export default function CoursesGrid({ courses, categories }: CoursesGridProps) {
         <p style={{
           fontSize: '13px',
           color: 'var(--color-steel)',
-          marginBottom: '24px',
           fontFamily: 'var(--font-sans)',
+          margin: '0 0 24px',
         }}>
-          {filtered.length} courses found
+          {filtered.length} courses found — Page {currentPage} of {totalPages}
         </p>
 
         {filtered.length > 0 ? (
@@ -138,7 +150,7 @@ export default function CoursesGrid({ courses, categories }: CoursesGridProps) {
             gridTemplateColumns: 'repeat(4, 1fr)',
             gap: '20px',
           }}>
-            {filtered.map((course) => (
+            {paginated.map((course) => (
               <Link 
                 key={course.id} 
                 href={`/course/${course.slug}`}
@@ -256,6 +268,124 @@ export default function CoursesGrid({ courses, categories }: CoursesGridProps) {
             }}>
               ⭐ Get Lifetime Access
             </Link>
+          </div>
+        )}
+
+        {totalPages > 1 && (
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            marginTop: '32px',
+            flexWrap: 'wrap',
+            gap: '12px',
+          }}>
+            <p style={{
+              fontSize: '13px',
+              color: 'var(--color-steel)',
+              fontFamily: 'var(--font-sans)',
+              margin: '0',
+            }}>
+              Showing {((currentPage - 1) * ITEMS_PER_PAGE) + 1}–{Math.min(currentPage * ITEMS_PER_PAGE, filtered.length)} of {filtered.length} courses
+            </p>
+
+            <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+              {/* Prev */}
+              <button
+                onClick={() => {
+                  setCurrentPage(p => Math.max(1, p - 1))
+                  window.scrollTo({ top: 0, behavior: 'smooth' })
+                }}
+                disabled={currentPage === 1}
+                style={{
+                  height: '40px',
+                  padding: '0 16px',
+                  background: currentPage === 1 ? 'var(--color-surface)' : 'var(--color-canvas)',
+                  border: '1px solid var(--color-hairline)',
+                  borderRadius: 'var(--radius-md)',
+                  fontSize: '14px',
+                  color: currentPage === 1 ? 'var(--color-muted)' : 'var(--color-ink)',
+                  fontFamily: 'var(--font-sans)',
+                  cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
+                }}
+              >
+                ← Prev
+              </button>
+
+              {/* Page Numbers */}
+              {Array.from({ length: totalPages }, (_, i) => i + 1)
+                .filter(page =>
+                  page === 1 ||
+                  page === totalPages ||
+                  Math.abs(page - currentPage) <= 1
+                )
+                .reduce((acc: (number | string)[], page, idx, arr) => {
+                  if (idx > 0 && (page as number) - (arr[idx - 1] as number) > 1) {
+                    acc.push('...')
+                  }
+                  acc.push(page)
+                  return acc
+                }, [])
+                .map((page, idx) => (
+                  page === '...' ? (
+                    <span key={`dots-${idx}`} style={{
+                      padding: '0 8px',
+                      fontSize: '14px',
+                      color: 'var(--color-muted)',
+                      fontFamily: 'var(--font-sans)',
+                    }}>
+                      ...
+                    </span>
+                  ) : (
+                    <button
+                      key={page}
+                      onClick={() => {
+                        setCurrentPage(page as number)
+                        window.scrollTo({ top: 0, behavior: 'smooth' })
+                      }}
+                      style={{
+                        height: '40px',
+                        width: '40px',
+                        background: currentPage === page
+                          ? 'var(--color-ink-deep)'
+                          : 'var(--color-canvas)',
+                        border: '1px solid var(--color-hairline)',
+                        borderRadius: 'var(--radius-md)',
+                        fontSize: '14px',
+                        fontWeight: currentPage === page ? '600' : '400',
+                        color: currentPage === page ? 'white' : 'var(--color-ink)',
+                        fontFamily: 'var(--font-sans)',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      {page}
+                    </button>
+                  )
+                ))
+              }
+
+              {/* Next */}
+              <button
+                onClick={() => {
+                  setCurrentPage(p => Math.min(totalPages, p + 1))
+                  window.scrollTo({ top: 0, behavior: 'smooth' })
+                }}
+                disabled={currentPage === totalPages}
+                style={{
+                  height: '40px',
+                  padding: '0 16px',
+                  background: currentPage === totalPages ? 'var(--color-surface)' : 'var(--color-canvas)',
+                  border: '1px solid var(--color-hairline)',
+                  borderRadius: 'var(--radius-md)',
+                  fontSize: '14px',
+                  color: currentPage === totalPages ? 'var(--color-muted)' : 'var(--color-ink)',
+                  fontFamily: 'var(--font-sans)',
+                  cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
+                }}
+              >
+                Next →
+              </button>
+            </div>
           </div>
         )}
       </div>

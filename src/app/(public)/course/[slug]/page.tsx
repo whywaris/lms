@@ -66,31 +66,33 @@ export default async function CoursePage({
       <div style={{
         maxWidth: '1280px',
         margin: '0 auto',
-        padding: '16px 32px',
+        padding: '16px 24px',
         fontSize: '13px',
         color: 'var(--color-steel)',
         fontFamily: 'var(--font-sans)',
         display: 'flex',
         alignItems: 'center',
         gap: '6px',
+        flexWrap: 'nowrap',
+        overflow: 'hidden',
       }}>
-        <Link href="/" style={{
-          color: 'var(--color-steel)',
-          textDecoration: 'none',
-          fontFamily: 'var(--font-sans)',
-        }}>
+        <Link href="/" style={{ color: 'var(--color-steel)', textDecoration: 'none', flexShrink: 0 }}>
           Home
         </Link>
-        <span style={{ color: 'var(--color-muted)' }}>/</span>
-        <Link href="/courses" style={{
-          color: 'var(--color-steel)',
-          textDecoration: 'none',
-          fontFamily: 'var(--font-sans)',
-        }}>
+        <span style={{ flexShrink: 0 }}>/</span>
+        <Link href="/courses" style={{ color: 'var(--color-steel)', textDecoration: 'none', flexShrink: 0 }}>
           Courses
         </Link>
-        <span style={{ color: 'var(--color-muted)' }}>/</span>
-        <span style={{ color: 'var(--color-slate)' }}>
+        <span style={{ flexShrink: 0 }}>/</span>
+        <span style={{ flexShrink: 0 }}>...</span>
+        <span style={{ flexShrink: 0 }}>/</span>
+        <span style={{
+          color: 'var(--color-slate)',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
+          minWidth: 0,
+        }}>
           {course.course_name}
         </span>
       </div>
@@ -162,38 +164,46 @@ export default async function CoursePage({
               flexWrap: 'wrap',
             }}>
               {course.category && (
-                <span style={{
-                  fontSize: '11px',
-                  fontWeight: '500',
-                  color: 'var(--color-steel)',
-                  fontFamily: 'var(--font-sans)',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.06em',
-                }}>
-                  {course.category}
-                </span>
+                <Link
+                  href={`/courses/category/${course.category.toLowerCase().replace(/\s+/g, '-')}`}
+                  style={{ textDecoration: 'none' }}
+                >
+                  <span style={{
+                    fontSize: '11px',
+                    fontWeight: '500',
+                    color: 'var(--color-steel)',
+                    fontFamily: 'var(--font-sans)',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.06em',
+                    cursor: 'pointer',
+                  }}>
+                    {course.category}
+                  </span>
+                </Link>
               )}
             </div>
 
             {/* Tags Row */}
             {course.tags && course.tags.length > 0 && (
-              <div style={{
-                display: 'flex',
-                gap: '8px',
-                marginBottom: '16px',
-                flexWrap: 'wrap',
-              }}>
+              <div style={{ display: 'flex', gap: '8px', marginBottom: '16px', flexWrap: 'wrap' }}>
                 {course.tags.map((tag: string) => (
-                  <span key={tag} style={{
-                    background: 'var(--color-tint-lavender)',
-                    color: 'var(--color-badge-monthly-text)',
-                    fontSize: '11px',
-                    padding: '3px 10px',
-                    borderRadius: 'var(--radius-full)',
-                    fontFamily: 'var(--font-sans)',
-                  }}>
-                    {tag}
-                  </span>
+                  <Link
+                    key={tag}
+                    href={`/courses/tag/${tag.toLowerCase().replace(/\s+/g, '-')}`}
+                    style={{ textDecoration: 'none' }}
+                  >
+                    <span style={{
+                      background: 'var(--color-tint-lavender)',
+                      color: 'var(--color-badge-monthly-text)',
+                      fontSize: '11px',
+                      padding: '3px 10px',
+                      borderRadius: 'var(--radius-full)',
+                      fontFamily: 'var(--font-sans)',
+                      cursor: 'pointer',
+                    }}>
+                      #{tag}
+                    </span>
+                  </Link>
                 ))}
               </div>
             )}
