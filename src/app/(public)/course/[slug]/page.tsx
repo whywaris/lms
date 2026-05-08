@@ -81,8 +81,26 @@ export default async function CoursePage({
 
   const { data: relatedCourses } = await query
 
+  const courseSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Course',
+    'name': course.course_name,
+    'description': course.short_description || course.description,
+    'provider': {
+      '@type': 'Organization',
+      'name': 'PandaCourses',
+      'url': 'https://pandacourses.com',
+    },
+    'image': course.image_url,
+    'url': `https://pandacourses.com/course/${course.slug}`,
+  }
+
   return (
     <main>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(courseSchema) }}
+      />
       <Navbar />
       <StickyCTA
         courseName={course.course_name}
