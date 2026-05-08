@@ -1,6 +1,20 @@
 import { createClient } from '@/lib/supabase/server'
 import { MetadataRoute } from 'next'
 
+// XML special characters encode karo
+function encodeXML(str: string): string {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;')
+}
+
+function toSlug(str: string): string {
+  return str.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const supabase = await createClient()
 
@@ -9,11 +23,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     .select('slug, category, tags, created_at')
     .eq('is_published', true)
 
+  const { data: blogs } = await supabase
+    .from('blog_posts')
+    .select('slug, created_at')
+    .eq('is_published', true)
+
   const baseUrl = 'https://pandacourses.com'
 
   // Static pages
   const staticPages: MetadataRoute.Sitemap = [
-    { url: baseUrl, lastModified: new Date(), changeFrequency: 'daily', priority: 1 },
+    { url: `${baseUrl}`, lastModified: new Date(), changeFrequency: 'daily', priority: 1 },
     { url: `${baseUrl}/courses`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.9 },
     { url: `${baseUrl}/pricing`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.8 },
     { url: `${baseUrl}/blog`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.7 },
@@ -21,32 +40,60 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ]
 
   // Course pages
-  const coursePages: MetadataRoute.Sitemap = (courses || []).map(course => ({
-    url: `${baseUrl}/course/${course.slug}`,
-    lastModified: new Date(course.created_at),
-    changeFrequency: 'weekly',
-    priority: 0.8,
-  }))
+  const coursePages: MetadataRoute.Sitemap = (courses || [])
+    .filter(course => course.slug)
+    .map(course => ({
+      url: `${baseUrl}/course/${encodeXML(course.slug)}`,
+      lastModified: new Date(course.created_at),
+      changeFrequency: 'weekly' as const,
+      priority: 0.8,
+    }))
+
+  // Blog pages
+  const blogPages: MetadataRoute.Sitemap = (blogs || [])
+    .filter(post => post.slug)
+    .map(post => ({
+      url: `${baseUrl}/blog/${encodeXML(post.slug)}`,
+      lastModified: new Date(post.created_at),
+      changeFrequency: 'weekly' as const,
+      priority: 0.7,
+    }))
 
   // Category pages
   const categories = new Set<string>()
-  courses?.forEach(c => { if (c.category) categories.add(c.category) })
+  courses?.forEach(c => {
+    if (c.category && typeof c.category === 'string') {
+      categories.add(c.category)
+    }
+  })
   const categoryPages: MetadataRoute.Sitemap = [...categories].map(cat => ({
-    url: `${baseUrl}/courses/category/${cat.toLowerCase().replace(/\s+/g, '-')}`,
+    url: `${baseUrl}/courses/category/${toSlug(cat)}`,
     lastModified: new Date(),
-    changeFrequency: 'weekly',
+    changeFrequency: 'weekly' as const,
     priority: 0.7,
   }))
 
   // Tag pages
   const tags = new Set<string>()
-  courses?.forEach(c => { c.tags?.forEach((t: string) => tags.add(t)) })
+  courses?.forEach(c => {
+    if (Array.isArray(c.tags)) {
+      c.tags.forEach((t: string) => {
+        if (t && typeof t === 'string') tags.add(t)
+      })
+    }
+  })
   const tagPages: MetadataRoute.Sitemap = [...tags].map(tag => ({
-    url: `${baseUrl}/courses/tag/${tag.toLowerCase().replace(/\s+/g, '-')}`,
+    url: `${baseUrl}/courses/tag/${toSlug(tag)}`,
     lastModified: new Date(),
-    changeFrequency: 'weekly',
+    changeFrequency: 'weekly' as const,
     priority: 0.6,
   }))
 
-  return [...staticPages, ...coursePages, ...categoryPages, ...tagPages]
+  return [
+    ...staticPages,
+    ...coursePages,
+    ...blogPages,
+    ...categoryPages,
+    ...tagPages,
+  ]
 }
