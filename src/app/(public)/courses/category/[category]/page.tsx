@@ -18,15 +18,18 @@ export async function generateMetadata({
 }
 
 export async function generateStaticParams() {
-  const { createClient } = await import('@/lib/supabase/server')
-  const supabase = await createClient()
+  const { createClient } = await import('@supabase/supabase-js')
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  )
   const { data } = await supabase
     .from('public_courses')
     .select('category')
     .eq('is_published', true)
     .not('category', 'is', null)
 
-  const categories = [...new Set(data?.map(c => c.category) || [])]
+  const categories = [...new Set(data?.map((c: { category: string }) => c.category) || [])]
   return categories.map(category => ({
     category: category.toLowerCase().replace(/\s+/g, '-'),
   }))

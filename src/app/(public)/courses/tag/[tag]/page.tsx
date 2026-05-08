@@ -18,8 +18,11 @@ export async function generateMetadata({
 }
 
 export async function generateStaticParams() {
-  const { createClient } = await import('@/lib/supabase/server')
-  const supabase = await createClient()
+  const { createClient } = await import('@supabase/supabase-js')
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  )
   const { data } = await supabase
     .from('public_courses')
     .select('tags')
@@ -27,7 +30,7 @@ export async function generateStaticParams() {
     .not('tags', 'is', null)
 
   const allTags = new Set<string>()
-  data?.forEach(course => {
+  data?.forEach((course: { tags: string[] }) => {
     course.tags?.forEach((tag: string) => allTags.add(tag))
   })
 
