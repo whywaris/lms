@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { createClient as createServiceClient } from '@supabase/supabase-js'
 import { MetadataRoute } from 'next'
 
 // XML special characters encode karo
@@ -27,6 +28,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     .from('blog_posts')
     .select('slug, created_at')
     .eq('is_published', true)
+
+  const serviceSupabase = createServiceClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  )
+  const { data: landingPages } = await serviceSupabase
+    .from('landing_pages')
+    .select('keyword')
 
   const baseUrl = 'https://pandacourses.com'
 
@@ -89,11 +98,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.6,
   }))
 
+  // Landing pages
+  const landingPageEntries: MetadataRoute.Sitemap = (landingPages || [])
+    .filter(p => p.keyword)
+    .map(p => ({
+      url: `${baseUrl}/${p.keyword}`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.8,
+    }))
+
   return [
     ...staticPages,
     ...coursePages,
     ...blogPages,
     ...categoryPages,
     ...tagPages,
+    ...landingPageEntries,
   ]
 }

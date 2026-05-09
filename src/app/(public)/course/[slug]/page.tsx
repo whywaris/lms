@@ -93,6 +93,7 @@ export default async function CoursePage({
     },
     'image': course.image_url,
     'url': `https://pandacourses.com/course/${course.slug}`,
+    ...(course.tags?.length ? { 'keywords': course.tags.join(', ') } : {}),
   }
 
   return (
@@ -229,30 +230,6 @@ export default async function CoursePage({
               )}
             </div>
 
-            {/* Tags Row */}
-            {course.tags && course.tags.length > 0 && (
-              <div style={{ display: 'flex', gap: '8px', marginBottom: '16px', flexWrap: 'wrap' }}>
-                {course.tags.map((tag: string) => (
-                  <Link
-                    key={tag}
-                    href={`/courses/tag/${tag.toLowerCase().replace(/\s+/g, '-')}`}
-                    style={{ textDecoration: 'none' }}
-                  >
-                    <span style={{
-                      background: 'var(--color-tint-lavender)',
-                      color: 'var(--color-badge-monthly-text)',
-                      fontSize: '11px',
-                      padding: '3px 10px',
-                      borderRadius: 'var(--radius-full)',
-                      fontFamily: 'var(--font-sans)',
-                      cursor: 'pointer',
-                    }}>
-                      #{tag}
-                    </span>
-                  </Link>
-                ))}
-              </div>
-            )}
 
             {/* Title */}
             <h1 style={{
