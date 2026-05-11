@@ -1,5 +1,6 @@
 import AnnouncementBar from '@/components/ui/AnnouncementBar'
 import BackToTop from '@/components/ui/BackToTop'
+import WhatsAppButton from '@/components/ui/WhatsAppButton'
 
 export default function PublicLayout({
   children,
@@ -10,6 +11,7 @@ export default function PublicLayout({
     <>
       <AnnouncementBar />
       {children}
+      <WhatsAppButton />
       <BackToTop />
     </>
   )
