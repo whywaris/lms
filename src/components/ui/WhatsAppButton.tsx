@@ -2,7 +2,7 @@
 
 export default function WhatsAppButton() {
   const phoneNumber = '+447729314114'
-  const message = 'Hello! I would like to know more about Pana LMS.'
+  const message = 'Hello! I have a Question.'
   const whatsappUrl = `https://wa.me/${phoneNumber.replace('+', '')}?text=${encodeURIComponent(message)}`
 
   return (
