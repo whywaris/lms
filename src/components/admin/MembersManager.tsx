@@ -40,7 +40,7 @@ export default function MembersManager({ initialMembers }: Props) {
   function openEdit(member: Member) {
     setEditingId(member.id)
     setEditForm({
-      plan: member.plan || 'monthly',
+      plan: member.plan || '',
       plan_expires_at: member.plan_expires_at
         ? new Date(member.plan_expires_at).toISOString().slice(0, 10)
         : '',
@@ -52,8 +52,8 @@ export default function MembersManager({ initialMembers }: Props) {
     setLoading(true)
 
     const payload = {
-      plan: editForm.plan,
-      plan_expires_at: editForm.plan === 'lifetime'
+      plan: editForm.plan === '' ? null : editForm.plan,
+      plan_expires_at: editForm.plan === 'lifetime' || editForm.plan === ''
         ? null
         : editForm.plan_expires_at
           ? new Date(editForm.plan_expires_at).toISOString()
@@ -101,7 +101,7 @@ export default function MembersManager({ initialMembers }: Props) {
     }
   }
 
-  async function handleQuickPlan(member: Member, plan: 'monthly' | 'lifetime') {
+  async function handleQuickPlan(member: Member, plan: 'monthly' | 'lifetime' | 'free') {
     const expiryDate = plan === 'monthly'
       ? new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
       : null
@@ -109,7 +109,7 @@ export default function MembersManager({ initialMembers }: Props) {
     const { data } = await supabase
       .from('profiles')
       .update({
-        plan: plan,
+        plan: plan === 'free' ? null : plan,
         plan_expires_at: expiryDate,
         is_active: true,
       })
@@ -126,7 +126,7 @@ export default function MembersManager({ initialMembers }: Props) {
         target_user_email: member.email,
       })
 
-      showToast(`✅ ${plan === 'lifetime' ? 'Lifetime' : 'Monthly'} plan assigned to ${member.full_name || member.email}`)
+      showToast(`✅ ${plan.charAt(0).toUpperCase() + plan.slice(1)} plan assigned to ${member.full_name || member.email}`)
     }
   }
 
@@ -388,13 +388,17 @@ export default function MembersManager({ initialMembers }: Props) {
                     borderRadius: 'var(--radius-sm)',
                     background: member.plan === 'lifetime'
                       ? 'var(--color-badge-lifetime-bg)'
-                      : 'var(--color-badge-monthly-bg)',
+                      : member.plan === 'monthly'
+                        ? 'var(--color-badge-monthly-bg)'
+                        : '#F3F4F6',
                     color: member.plan === 'lifetime'
                       ? 'var(--color-badge-lifetime-text)'
-                      : 'var(--color-badge-monthly-text)',
+                      : member.plan === 'monthly'
+                        ? 'var(--color-badge-monthly-text)'
+                        : '#6B7280',
                     fontFamily: 'var(--font-sans)',
                   }}>
-                    {member.plan === 'lifetime' ? 'Lifetime' : 'Monthly'}
+                    {member.plan === 'lifetime' ? 'Lifetime' : member.plan === 'monthly' ? 'Monthly' : 'Free'}
                   </span>
                 </div>
 
@@ -471,6 +475,22 @@ export default function MembersManager({ initialMembers }: Props) {
                     }}
                   >
                     Lifetime
+                  </button>
+                  <button
+                    onClick={() => handleQuickPlan(member, 'free')}
+                    style={{
+                      background: '#F3F4F6',
+                      border: 'none',
+                      borderRadius: 'var(--radius-sm)',
+                      padding: '5px 10px',
+                      fontSize: '12px',
+                      color: '#6B7280',
+                      fontFamily: 'var(--font-sans)',
+                      cursor: 'pointer',
+                      fontWeight: '500',
+                    }}
+                  >
+                    Free
                   </button>
                   <button
                     onClick={() => handleToggleActive(member)}
@@ -555,6 +575,7 @@ export default function MembersManager({ initialMembers }: Props) {
                         outline: 'none',
                       }}
                     >
+                      <option value="">Free</option>
                       <option value="monthly">Monthly</option>
                       <option value="lifetime">Lifetime</option>
                     </select>

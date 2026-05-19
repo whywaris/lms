@@ -14,7 +14,7 @@ export default function SignupPage() {
   const [fullName, setFullName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [plan, setPlan] = useState<'monthly' | 'lifetime'>('monthly')
+  const [plan, setPlan] = useState<'monthly' | 'lifetime' | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
@@ -38,15 +38,13 @@ export default function SignupPage() {
 
     if (data.user) {
       // Profile banao
-      const expiryDate = plan === 'monthly'
-        ? new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
-        : null
+      const expiryDate = null
 
       await supabase.from('profiles').insert({
         id: data.user.id,
         full_name: fullName,
         email: email,
-        plan: plan,
+        plan: null,
         plan_expires_at: expiryDate,
         is_active: true,
       })

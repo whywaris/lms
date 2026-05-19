@@ -21,8 +21,6 @@ export default async function DashboardPage() {
 
   if (!profile) redirect('/login')
 
-  // No Plan State
-  if (!profile.plan) redirect('/no-plan')
 
   // Plan expired check
   const isExpired = profile.plan === 'monthly' &&
@@ -101,7 +99,7 @@ export default async function DashboardPage() {
               ? '⭐ Lifetime Member' 
               : profile.plan === 'monthly' 
                 ? '📅 Monthly Member' 
-                : '🚫 No Active Plan'}
+                : '🆓 Free Plan'}
           </div>
         </div>
       </nav>
@@ -230,7 +228,7 @@ export default async function DashboardPage() {
               }}>
                 {[
                   { label: 'Total Courses', value: courses?.length || 0, icon: '📚' },
-                  { label: 'Plan', value: profile.plan ? (profile.plan.charAt(0).toUpperCase() + profile.plan.slice(1)) : 'None', icon: '🎯' },
+                  { label: 'Plan', value: profile.plan ? (profile.plan.charAt(0).toUpperCase() + profile.plan.slice(1)) : 'Free', icon: '🎯' },
                   { label: 'Status', value: profile.plan ? (profile.is_active ? 'Active' : 'Inactive') : 'Inactive', icon: '✅' },
                 ].map((stat) => (
                   <div key={stat.label} style={{
@@ -256,6 +254,44 @@ export default async function DashboardPage() {
             margin: '0 auto',
             padding: '48px 32px 96px',
           }}>
+            {/* Upgrade Banner for Free Plan users */}
+            {!profile.plan && (
+              <div style={{
+                background: 'var(--color-tint-lavender)',
+                border: '1px solid rgba(107,78,255,0.2)',
+                borderRadius: 'var(--radius-md)',
+                padding: '14px 20px',
+                marginBottom: '20px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}>
+                <p style={{
+                  fontSize: '14px',
+                  color: 'var(--color-ink-deep)',
+                  fontFamily: 'var(--font-sans)',
+                  margin: 0,
+                }}>
+                  🚀 You are on the Free Plan — upgrade to access all courses.
+                </p>
+                <Link 
+                  href="/pricing"
+                  style={{
+                    background: 'var(--color-primary)',
+                    color: 'white',
+                    fontSize: '13px',
+                    fontWeight: '500',
+                    padding: '8px 16px',
+                    borderRadius: 'var(--radius-md)',
+                    textDecoration: 'none',
+                    fontFamily: 'var(--font-sans)',
+                  }}
+                >
+                  View Plans
+                </Link>
+              </div>
+            )}
+
             {/* Upgrade Banner for Monthly users */}
             {profile.plan === 'monthly' && (
               <div style={{
