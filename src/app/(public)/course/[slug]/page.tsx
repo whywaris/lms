@@ -269,24 +269,30 @@ export default async function CoursePage({
               </div>
             )}
 
-            {/* Single Buy Now Button */}
-            <Link href="/pricing" style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              background: '#000',
-              color: '#fff',
-              width: '100%',
-              height: '48px',
-              borderRadius: '8px',
-              fontSize: '14px',
-              fontWeight: '500',
-              textDecoration: 'none',
-              fontFamily: 'var(--font-sans)',
-              marginBottom: '32px',
-            }}>
-              Buy Now
-            </Link>
+            {/* WhatsApp Contact Button */}
+            <a
+              href="https://wa.me/+447729314114"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '10px',
+                width: '100%',
+                padding: '14px',
+                background: '#25D366',
+                color: 'white',
+                borderRadius: 'var(--radius-md)',
+                fontSize: '15px',
+                fontWeight: '500',
+                textDecoration: 'none',
+                fontFamily: 'var(--font-sans)',
+                marginBottom: '32px',
+              }}
+            >
+              💬 Want this course? Contact us on WhatsApp
+            </a>
 
           </div>
         </div>
