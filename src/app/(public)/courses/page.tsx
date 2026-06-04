@@ -34,7 +34,7 @@ export default async function CoursesPage() {
     .eq('is_published', true)
     .order('created_at', { ascending: false })
 
-  const categories = ['All', ...Array.from(new Set(courses?.filter(c => c.category).map(c => c.category) || []))] as string[]
+  const categories = ['All', ...Array.from(new Set(courses?.filter((c: any) => c.category).map((c: any) => c.category) || []))] as string[]
 
   return (
     <main style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
