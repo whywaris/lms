@@ -25,7 +25,7 @@ const emptyForm = {
   category: '',
   drive_link: '',
   source: '',
-  plan_access: 'both',
+  plan_access: 'lifetime',
   is_published: true,
 }
 
@@ -427,8 +427,6 @@ export default function CourseManager({ initialCourses }: Props) {
                   boxSizing: 'border-box',
                 }}
               >
-                <option value="both">Both (Monthly + Lifetime)</option>
-                <option value="monthly">Monthly Only</option>
                 <option value="lifetime">Lifetime Only</option>
               </select>
             </div>
@@ -599,17 +597,13 @@ export default function CourseManager({ initialCourses }: Props) {
                   borderRadius: 'var(--radius-sm)',
                   background: course.plan_access === 'lifetime'
                     ? 'var(--color-badge-lifetime-bg)'
-                    : course.plan_access === 'monthly'
-                      ? 'var(--color-badge-monthly-bg)'
-                      : 'var(--color-tint-lavender)',
+                    : 'var(--color-surface-soft)',
                   color: course.plan_access === 'lifetime'
                     ? 'var(--color-badge-lifetime-text)'
-                    : course.plan_access === 'monthly'
-                      ? 'var(--color-badge-monthly-text)'
-                      : 'var(--color-badge-monthly-text)',
+                    : 'var(--color-slate)',
                   fontFamily: 'var(--font-sans)',
                 }}>
-                  {course.plan_access === 'both' ? 'Both' : course.plan_access}
+                  {course.plan_access}
                 </span>
               </div>
 

@@ -5,11 +5,10 @@ import Link from 'next/link'
 
 interface StickyCTAProps {
   courseName: string
-  monthlyPrice: string
   lifetimePrice: string
 }
 
-export default function StickyCTA({ courseName, monthlyPrice, lifetimePrice }: StickyCTAProps) {
+export default function StickyCTA({ courseName, lifetimePrice }: StickyCTAProps) {
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
@@ -57,7 +56,7 @@ export default function StickyCTA({ courseName, monthlyPrice, lifetimePrice }: S
           fontFamily: 'var(--font-sans)',
           margin: '0',
         }}>
-          $30/month · $99 lifetime
+          $99 lifetime
         </p>
       </div>
 
@@ -67,18 +66,6 @@ export default function StickyCTA({ courseName, monthlyPrice, lifetimePrice }: S
         gap: '10px',
         alignItems: 'center',
       }}>
-        <Link href="/signup?plan=monthly" style={{
-          background: 'var(--color-ink-deep)',
-          color: 'var(--color-on-dark)',
-          padding: '9px 20px',
-          borderRadius: 'var(--radius-md)',
-          fontSize: '13px',
-          fontWeight: '500',
-          textDecoration: 'none',
-          fontFamily: 'var(--font-sans)',
-        }}>
-          Monthly
-        </Link>
         <Link href="/signup?plan=lifetime" style={{
           background: 'var(--color-primary)',
           color: 'var(--color-on-dark)',

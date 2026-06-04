@@ -43,7 +43,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 // FAQ — unique per page type (can be extended later)
 const FAQS = [
   { q: 'What courses are included in the membership?', a: 'You get access to our full library — programming, marketing, AI, e-commerce, freelancing, and more. New courses are added regularly.' },
-  { q: 'What is the difference between Monthly and Lifetime access?', a: 'Monthly gives you full access as long as your plan is active. Lifetime is a one-time payment — you own access forever, including all future courses added.' },
+
   { q: 'Can I access courses on mobile?', a: 'Yes. The platform is fully mobile responsive. Learn from any device, anytime.' },
   { q: 'Is there a refund policy?', a: 'Yes. We offer a refund within 7 days if you are not satisfied with your purchase.' },
 ]
@@ -305,38 +305,6 @@ export default async function KeywordLandingPage({ params }: Props) {
               gap: '16px',
               textAlign: 'left',
             }}>
-              {/* Monthly Plan */}
-              <div style={{
-                background: '#fff',
-                border: '1px solid var(--color-hairline, #e5e5e5)',
-                borderRadius: '12px',
-                padding: '28px',
-              }}>
-                <p style={{ fontSize: '13px', fontWeight: 600, color: '#888', textTransform: 'uppercase', letterSpacing: '0.06em', margin: '0 0 12px' }}>Monthly</p>
-                <p style={{ fontSize: '32px', fontWeight: 700, margin: '0 0 4px' }}>$30<span style={{ fontSize: '16px', fontWeight: 400, color: '#888' }}>/mo</span></p>
-                <p style={{ fontSize: '14px', color: '#888', margin: '0 0 20px' }}>Cancel anytime</p>
-                {['Full course library access', 'New courses every month', 'Mobile & desktop access'].map(f => (
-                  <div key={f} style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
-                    <span style={{ color: '#22c55e', fontSize: '16px' }}>✓</span>
-                    <span style={{ fontSize: '14px', color: '#444' }}>{f}</span>
-                  </div>
-                ))}
-                <Link href="/pricing" style={{
-                  display: 'block',
-                  textAlign: 'center',
-                  marginTop: '24px',
-                  border: '1px solid #1a1a1a',
-                  color: '#1a1a1a',
-                  padding: '12px',
-                  borderRadius: '8px',
-                  fontSize: '14px',
-                  fontWeight: 500,
-                  textDecoration: 'none',
-                }}>
-                  Get Started
-                </Link>
-              </div>
-
               {/* Lifetime Plan */}
               <div style={{
                 background: '#0f0f0f',
@@ -366,7 +334,7 @@ export default async function KeywordLandingPage({ params }: Props) {
                 <p style={{ fontSize: '13px', fontWeight: 600, color: '#f97316', textTransform: 'uppercase', letterSpacing: '0.06em', margin: '0 0 12px' }}>Lifetime</p>
                 <p style={{ fontSize: '32px', fontWeight: 700, margin: '0 0 4px' }}>$99<span style={{ fontSize: '16px', fontWeight: 400, color: 'rgba(255,255,255,0.5)' }}> one-time</span></p>
                 <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.5)', margin: '0 0 20px' }}>Pay once, learn forever</p>
-                {['Everything in Monthly', 'All future courses free', 'Priority support', 'Lifetime updates'].map(f => (
+                {['Full course library access', 'All future courses free', 'Priority support', 'Lifetime updates'].map(f => (
                   <div key={f} style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
                     <span style={{ color: '#f97316', fontSize: '16px' }}>✓</span>
                     <span style={{ fontSize: '14px', color: 'rgba(255,255,255,0.85)' }}>{f}</span>

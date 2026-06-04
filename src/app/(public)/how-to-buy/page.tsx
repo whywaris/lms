@@ -16,7 +16,7 @@ export default function HowToBuyPage() {
       num: '02',
       icon: '💳',
       title: 'Choose Your Plan',
-      description: 'Select between our Monthly Plan ($30/month) or Lifetime Plan ($99 one-time). The Lifetime Plan gives you access to everything — forever.',
+      description: 'Get our Lifetime Plan for a one-time payment of $99. It gives you access to everything — forever.',
     },
     {
       num: '03',
@@ -35,7 +35,7 @@ export default function HowToBuyPage() {
   const faqs = [
     {
       q: 'Do I get access to all courses with a VIP membership?',
-      a: 'Yes — both Monthly and Lifetime members get access to all published courses on the platform. Lifetime members also get access to future courses and exclusive hidden content.',
+      a: 'Yes — Lifetime members get access to all published and future courses on the platform, along with exclusive hidden content.',
     },
     {
       q: 'Where are the courses stored?',
@@ -51,16 +51,13 @@ export default function HowToBuyPage() {
     },
     {
       q: 'Can I request a course?',
-      a: 'Lifetime members can request courses directly. Monthly members can upgrade to Lifetime to unlock this feature. Contact our support team with your request.',
+      a: 'Lifetime members can request courses directly. Contact our support team with your request.',
     },
     {
       q: 'What is your refund policy?',
       a: 'We do not offer refunds. You joined for a reason — so make the most of it and start downloading the courses! If you have any issues with access, our support team is available 24/7.',
     },
-    {
-      q: 'Can I upgrade from Monthly to Lifetime?',
-      a: 'Yes — you can upgrade anytime. Simply purchase the Lifetime plan and your access will be upgraded instantly. Contact support if you need any assistance.',
-    },
+
   ]
 
   return (

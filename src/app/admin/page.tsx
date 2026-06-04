@@ -24,7 +24,7 @@ export default async function AdminDashboard() {
   const [
     { count: totalCourses },
     { count: totalMembers },
-    { count: monthlyMembers },
+
     { count: lifetimeMembers },
     { count: totalBlogs },
     { count: totalPublicCourses },
@@ -33,7 +33,7 @@ export default async function AdminDashboard() {
   ] = await Promise.all([
     supabase.from('courses').select('*', { count: 'exact', head: true }),
     supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('role', 'student'),
-    supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('plan', 'monthly').eq('role', 'student'),
+
     supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('plan', 'lifetime').eq('role', 'student'),
     supabase.from('blog_posts').select('*', { count: 'exact', head: true }),
     supabase.from('public_courses').select('*', { count: 'exact', head: true }).eq('is_published', true),
@@ -45,7 +45,7 @@ export default async function AdminDashboard() {
     { label: 'Total Courses', value: totalCourses || 0, icon: '📚', tint: 'var(--color-tint-lavender)' },
     { label: 'Public Courses', value: totalPublicCourses || 0, icon: '🌐', tint: 'var(--color-tint-sky)' },
     { label: 'Total Members', value: totalMembers || 0, icon: '👥', tint: 'var(--color-tint-mint)' },
-    { label: 'Monthly Members', value: monthlyMembers || 0, icon: '📅', tint: 'var(--color-tint-peach)' },
+
     { label: 'Lifetime Members', value: lifetimeMembers || 0, icon: '⭐', tint: 'var(--color-tint-yellow)' },
     { label: 'Blog Posts', value: totalBlogs || 0, icon: '✍️', tint: 'var(--color-tint-rose)' },
   ]
@@ -54,7 +54,7 @@ export default async function AdminDashboard() {
     <div className="admin-layout" style={{ display: 'flex', minHeight: '100vh', background: 'var(--color-surface)' }}>
       <AdminSidebar />
 
-      <main style={{ flex: 1, padding: '40px', overflow: 'auto' }}>
+      <main style={{ flex: 1, padding: '40px', height: '100vh', overflowY: 'auto' }}>
 
         {/* Header */}
         <div style={{ marginBottom: '32px' }}>
@@ -184,9 +184,7 @@ export default async function AdminDashboard() {
           {/* Rows */}
           {recentMembers && recentMembers.length > 0 ? (
             recentMembers.map((member, index) => {
-              const isExpiringSoon = member.plan === 'monthly' &&
-                member.plan_expires_at &&
-                new Date(member.plan_expires_at) < new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+
 
               return (
                 <div
@@ -233,13 +231,13 @@ export default async function AdminDashboard() {
                       borderRadius: 'var(--radius-sm)',
                       background: member.plan === 'lifetime'
                         ? 'var(--color-badge-lifetime-bg)'
-                        : 'var(--color-badge-monthly-bg)',
+                        : 'var(--color-surface-soft)',
                       color: member.plan === 'lifetime'
                         ? 'var(--color-badge-lifetime-text)'
-                        : 'var(--color-badge-monthly-text)',
+                        : 'var(--color-slate)',
                       fontFamily: 'var(--font-sans)',
                     }}>
-                      {member.plan === 'lifetime' ? 'Lifetime' : 'Monthly'}
+                      {member.plan === 'lifetime' ? 'Lifetime' : 'Free'}
                     </span>
                   </div>
 
@@ -251,9 +249,9 @@ export default async function AdminDashboard() {
                   }}>
                     <span style={{
                       fontSize: '13px',
-                      color: isExpiringSoon ? '#DC2626' : 'var(--color-charcoal)',
+                      color: 'var(--color-charcoal)',
                       fontFamily: 'var(--font-sans)',
-                      fontWeight: isExpiringSoon ? '500' : '400',
+                      fontWeight: '400',
                     }}>
                       {member.plan === 'lifetime'
                         ? '∞ Lifetime'

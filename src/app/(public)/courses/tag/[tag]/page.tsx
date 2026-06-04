@@ -163,7 +163,7 @@ export default async function TagPage({
                       {course.tags.slice(0, 3).map((t: string) => (
                         <span key={t} style={{
                           background: 'var(--color-tint-lavender)',
-                          color: 'var(--color-badge-monthly-text)',
+                          color: 'var(--color-ink-deep)',
                           fontSize: '11px',
                           padding: '2px 8px',
                           borderRadius: 'var(--radius-full)',

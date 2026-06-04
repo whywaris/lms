@@ -17,7 +17,7 @@ export default async function AdminMembersPage() {
   return (
     <div className="admin-layout" style={{ display: 'flex', minHeight: '100vh', background: 'var(--color-surface)' }}>
       <AdminSidebar />
-      <main style={{ flex: 1, padding: '40px', overflow: 'auto' }}>
+      <main style={{ flex: 1, padding: '40px', height: '100vh', overflowY: 'auto' }}>
         <div style={{ marginBottom: '32px' }}>
           <p style={{
             fontSize: '11px',

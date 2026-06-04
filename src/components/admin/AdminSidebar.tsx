@@ -20,7 +20,10 @@ export default function AdminSidebar() {
   return (
     <aside className="admin-sidebar" style={{
       width: '240px',
-      minHeight: '100vh',
+      height: '100vh',
+      position: 'sticky',
+      top: 0,
+      overflowY: 'auto',
       background: 'var(--color-canvas)',
       borderRight: '1px solid var(--color-hairline)',
       padding: '32px 0',

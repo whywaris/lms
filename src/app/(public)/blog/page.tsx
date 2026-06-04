@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/server'
 import Navbar from '@/components/ui/Navbar'
 import Footer from '@/components/sections/Footer'
 import BlogContent from '@/components/blog/BlogContent'
@@ -9,8 +9,10 @@ export const metadata: Metadata = {
   description: 'Explore courses, read success stories, and stay ahead with Dev Tips & Tutorials.',
 }
 
+export const revalidate = 0
+
 export default async function BlogPage() {
-  const supabase = await createClient()
+  const supabase = createAdminClient()
 
   const { data: posts } = await supabase
     .from('blog_posts')

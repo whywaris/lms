@@ -31,7 +31,7 @@ export default function AuditLog({ initialLogs }: Props) {
     if (action.includes('revoked') || action.includes('blocked')) {
       return { bg: '#FEF2F2', color: '#DC2626' }
     }
-    return { bg: 'var(--color-tint-lavender)', color: 'var(--color-badge-monthly-text)' }
+    return { bg: 'var(--color-tint-lavender)', color: 'var(--color-ink-deep)' }
   }
 
   function timeAgo(dateStr: string) {

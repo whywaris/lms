@@ -11,13 +11,7 @@ export default function PricingPage() {
     'Instant Access After Payment',
   ]
 
-  const starterFeatures = [
-    'Access all published courses',
-    'New courses every month',
-    'Mega/Gdrive links access',
-    'Support 24/7',
-    'Cancel anytime',
-  ]
+
 
   const lifetimeFeatures = [
     'Everything in Starter',
@@ -30,14 +24,7 @@ export default function PricingPage() {
   ]
 
   const faqs = [
-    {
-      q: 'Can I cancel my monthly plan anytime?',
-      a: 'Yes — cancel anytime with no questions asked. You keep access until the end of your billing period.',
-    },
-    {
-      q: 'Can I upgrade from monthly to lifetime?',
-      a: 'Absolutely. Just purchase the lifetime plan and your access will be upgraded instantly.',
-    },
+
     {
       q: 'How do I access courses after purchase?',
       a: 'After signup, log into your dashboard — all courses will be listed there with direct Mega/Gdrive links.',
@@ -120,100 +107,11 @@ export default function PricingPage() {
         padding: '80px 32px',
       }}>
         <div className="pricing-grid" style={{
-          maxWidth: '860px',
+          maxWidth: '430px',
           margin: '0 auto',
-          display: 'grid',
-          gridTemplateColumns: '1fr 1fr',
-          gap: '24px',
         }}>
           
-          {/* Monthly Card */}
-          <div style={{
-            background: 'white',
-            border: '1px solid var(--color-hairline)',
-            borderRadius: 'var(--radius-lg)',
-            padding: '32px',
-            display: 'flex',
-            flexDirection: 'column',
-          }}>
-            <p style={{
-              fontSize: '11px',
-              fontWeight: '500',
-              color: 'var(--color-steel)',
-              letterSpacing: '0.08em',
-              textTransform: 'uppercase',
-              fontFamily: 'var(--font-sans)',
-              margin: '0 0 12px',
-            }}>
-              MONTHLY
-            </p>
-            <h2 style={{
-              fontSize: '24px',
-              fontWeight: '600',
-              color: 'var(--color-ink-deep)',
-              fontFamily: 'var(--font-sans)',
-              margin: '0 0 8px',
-            }}>
-              Starter
-            </h2>
-            <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px', marginBottom: '8px' }}>
-              <span style={{ fontSize: '48px', fontWeight: '600', color: 'var(--color-ink-deep)', fontFamily: 'var(--font-sans)' }}>$30</span>
-              <span style={{ fontSize: '14px', color: 'var(--color-steel)', fontFamily: 'var(--font-sans)' }}>/month</span>
-            </div>
-            <div style={{ height: '1px', background: 'var(--color-hairline)', margin: '24px 0' }} />
-            <p style={{
-              fontSize: '11px',
-              fontWeight: '500',
-              color: 'var(--color-steel)',
-              letterSpacing: '0.08em',
-              textTransform: 'uppercase',
-              fontFamily: 'var(--font-sans)',
-              margin: '0 0 16px',
-            }}>
-              EVERYTHING INCLUDED
-            </p>
-            <div style={{ flex: 1 }}>
-              {starterFeatures.map((feature) => (
-                <div key={feature} style={{ display: 'flex', gap: '10px', marginBottom: '12px', alignItems: 'flex-start' }}>
-                  <span style={{ color: '#27500A', fontWeight: '600', fontSize: '14px' }}>✓</span>
-                  <span style={{ fontSize: '14px', color: 'var(--color-charcoal)', fontFamily: 'var(--font-sans)', lineHeight: '1.4' }}>
-                    {feature}
-                  </span>
-                </div>
-              ))}
-            </div>
-            <Link 
-              href={process.env.NEXT_PUBLIC_GUMROAD_MONTHLY_URL || '#'} 
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: '100%',
-                height: '48px',
-                background: 'var(--color-ink-deep)',
-                color: 'white',
-                borderRadius: 'var(--radius-md)',
-                fontSize: '14px',
-                fontWeight: '500',
-                textDecoration: 'none',
-                fontFamily: 'var(--font-sans)',
-                marginTop: '24px',
-              }}
-            >
-              Get Monthly Access
-            </Link>
-            <p style={{
-              fontSize: '12px',
-              color: 'var(--color-steel)',
-              textAlign: 'center',
-              marginTop: '12px',
-              fontFamily: 'var(--font-sans)',
-            }}>
-              One-time purchase for 1 month access
-            </p>
-          </div>
+
 
           {/* Lifetime Card */}
           <div style={{

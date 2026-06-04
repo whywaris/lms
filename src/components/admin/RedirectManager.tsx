@@ -326,8 +326,8 @@ export default function RedirectManager({ initialRedirects }: Props) {
                   fontWeight: '500',
                   padding: '3px 8px',
                   borderRadius: 'var(--radius-full)',
-                  background: redirect.is_permanent ? 'var(--color-badge-lifetime-bg)' : 'var(--color-badge-monthly-bg)',
-                  color: redirect.is_permanent ? 'var(--color-badge-lifetime-text)' : 'var(--color-badge-monthly-text)',
+                  background: redirect.is_permanent ? 'var(--color-badge-lifetime-bg)' : 'var(--color-surface-soft)',
+                  color: redirect.is_permanent ? 'var(--color-badge-lifetime-text)' : 'var(--color-ink-deep)',
                   fontFamily: 'var(--font-sans)',
                 }}>
                   {redirect.is_permanent ? '301' : '302'}

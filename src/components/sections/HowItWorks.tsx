@@ -3,7 +3,7 @@ export default function HowItWorks() {
     {
       number: '01',
       title: 'Purchase a Plan',
-      description: 'Select a Monthly or Lifetime plan that suits your needs. Enroll once to unlock access to all available courses on the platform.',
+      description: 'Purchase our lifetime plan to unlock access to all available courses on the platform.',
       tint: 'var(--color-tint-lavender)',
     },
     {

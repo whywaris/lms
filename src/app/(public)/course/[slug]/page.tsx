@@ -105,7 +105,6 @@ export default async function CoursePage({
       <Navbar />
       <StickyCTA
         courseName={course.course_name}
-        monthlyPrice="$30"
         lifetimePrice="$99"
       />
 
@@ -419,7 +418,7 @@ export default async function CoursePage({
                     <span style={{
                       display: 'inline-block',
                       background: 'var(--color-tint-lavender)',
-                      color: 'var(--color-badge-monthly-text)',
+                      color: 'var(--color-ink-deep)',
                       fontSize: '11px',
                       padding: '2px 8px',
                       borderRadius: 'var(--radius-full)',

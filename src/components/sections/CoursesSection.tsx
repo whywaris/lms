@@ -96,7 +96,7 @@ export default async function CoursesSection() {
                       {course.category && (
                         <span style={{
                           background: 'var(--color-tint-lavender)',
-                          color: 'var(--color-badge-monthly-text)',
+                          color: 'var(--color-ink-deep)',
                           fontSize: '11px',
                           fontWeight: '600',
                           padding: '2px 8px',

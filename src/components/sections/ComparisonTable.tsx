@@ -2,13 +2,13 @@ import Link from 'next/link'
 
 export default function ComparisonTable() {
   const features = [
-    { label: 'Full Access to All Courses', monthly: true, lifetime: true },
-    { label: 'New Courses Added Monthly', monthly: true, lifetime: true },
-    { label: 'Direct Drive Links Access', monthly: true, lifetime: true },
-    { label: 'Access to Future Courses', monthly: false, lifetime: true },
-    { label: 'One-time Payment', monthly: false, lifetime: true },
-    { label: 'Priority Support', monthly: false, lifetime: true },
-    { label: 'Lifetime Updates', monthly: false, lifetime: true },
+    { label: 'Full Access to All Courses', lifetime: true },
+    { label: 'New Courses Added Every Month', lifetime: true },
+    { label: 'Direct Drive Links Access', lifetime: true },
+    { label: 'Access to Future Courses', lifetime: true },
+    { label: 'One-time Payment', lifetime: true },
+    { label: 'Priority Support', lifetime: true },
+    { label: 'Lifetime Updates', lifetime: true },
   ]
 
   return (
@@ -46,7 +46,7 @@ export default function ComparisonTable() {
             margin: '0 0 16px',
             lineHeight: '1.2',
           }}>
-            Monthly vs Lifetime
+            Lifetime Access
           </h2>
           <p style={{
             fontSize: '16px',
@@ -70,46 +70,12 @@ export default function ComparisonTable() {
           {/* Table Header */}
           <div style={{
             display: 'grid',
-            gridTemplateColumns: '1fr 160px 160px',
+            gridTemplateColumns: '1fr 160px',
             borderBottom: '1px solid var(--color-hairline)',
           }}>
             <div style={{ padding: '20px 24px' }} />
 
-            {/* Monthly Header */}
-            <div style={{
-              padding: '20px 16px',
-              textAlign: 'center',
-              borderLeft: '1px solid var(--color-hairline)',
-            }}>
-              <p style={{
-                fontSize: '11px',
-                fontWeight: '500',
-                color: 'var(--color-steel)',
-                textTransform: 'uppercase',
-                letterSpacing: '0.06em',
-                fontFamily: 'var(--font-sans)',
-                margin: '0 0 6px',
-              }}>
-                Monthly
-              </p>
-              <p style={{
-                fontSize: '22px',
-                fontWeight: '600',
-                color: 'var(--color-ink-deep)',
-                fontFamily: 'var(--font-sans)',
-                margin: '0 0 2px',
-              }}>
-                $30
-              </p>
-              <p style={{
-                fontSize: '12px',
-                color: 'var(--color-steel)',
-                fontFamily: 'var(--font-sans)',
-                margin: '0',
-              }}>
-                / month
-              </p>
-            </div>
+
 
             {/* Lifetime Header */}
             <div style={{
@@ -173,7 +139,7 @@ export default function ComparisonTable() {
               key={feature.label}
               style={{
                 display: 'grid',
-                gridTemplateColumns: '1fr 160px 160px',
+                gridTemplateColumns: '1fr 160px',
                 borderBottom: index === features.length - 1
                   ? 'none'
                   : '1px solid var(--color-hairline-soft)',
@@ -195,26 +161,7 @@ export default function ComparisonTable() {
                 </p>
               </div>
 
-              {/* Monthly Check */}
-              <div style={{
-                padding: '16px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                borderLeft: '1px solid var(--color-hairline)',
-              }}>
-                {feature.monthly ? (
-                  <span style={{
-                    fontSize: '18px',
-                    color: '#27500A',
-                  }}>✓</span>
-                ) : (
-                  <span style={{
-                    fontSize: '18px',
-                    color: 'var(--color-muted)',
-                  }}>—</span>
-                )}
-              </div>
+
 
               {/* Lifetime Check */}
               <div style={{
@@ -243,35 +190,13 @@ export default function ComparisonTable() {
           {/* CTA Row */}
           <div style={{
             display: 'grid',
-            gridTemplateColumns: '1fr 160px 160px',
+            gridTemplateColumns: '1fr 160px',
             borderTop: '1px solid var(--color-hairline)',
             padding: '20px 0',
           }}>
             <div />
 
-            {/* Monthly CTA */}
-            <div style={{
-              padding: '0 16px',
-              display: 'flex',
-              justifyContent: 'center',
-              borderLeft: '1px solid var(--color-hairline)',
-            }}>
-              <Link href="/signup" style={{
-                background: 'var(--color-ink-deep)',
-                color: 'var(--color-on-dark)',
-                padding: '10px 20px',
-                borderRadius: 'var(--radius-md)',
-                fontSize: '13px',
-                fontWeight: '500',
-                textDecoration: 'none',
-                fontFamily: 'var(--font-sans)',
-                textAlign: 'center',
-                display: 'block',
-                width: '100%',
-              }}>
-                Get Started
-              </Link>
-            </div>
+
 
             {/* Lifetime CTA */}
             <div style={{

@@ -101,10 +101,8 @@ export default function MembersManager({ initialMembers }: Props) {
     }
   }
 
-  async function handleQuickPlan(member: Member, plan: 'monthly' | 'lifetime' | 'free') {
-    const expiryDate = plan === 'monthly'
-      ? new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
-      : null
+  async function handleQuickPlan(member: Member, plan: 'lifetime' | 'free') {
+    const expiryDate = null
 
     const { data } = await supabase
       .from('profiles')
@@ -146,13 +144,7 @@ export default function MembersManager({ initialMembers }: Props) {
     return matchSearch && matchPlan && matchStatus
   })
 
-  function isExpiringSoon(member: Member) {
-    return (
-      member.plan === 'monthly' &&
-      member.plan_expires_at &&
-      new Date(member.plan_expires_at) < new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
-    )
-  }
+
 
   return (
     <div>
@@ -169,11 +161,7 @@ export default function MembersManager({ initialMembers }: Props) {
             value: members.length,
             bg: 'var(--color-tint-lavender)',
           },
-          {
-            label: 'Monthly',
-            value: members.filter(m => m.plan === 'monthly').length,
-            bg: 'var(--color-badge-monthly-bg)',
-          },
+
           {
             label: 'Lifetime',
             value: members.filter(m => m.plan === 'lifetime').length,
@@ -184,15 +172,7 @@ export default function MembersManager({ initialMembers }: Props) {
             value: members.filter(m => !m.plan).length,
             bg: 'var(--color-tint-peach)',
           },
-          {
-            label: 'Expiring Soon',
-            value: members.filter(m =>
-              m.plan === 'monthly' &&
-              m.plan_expires_at &&
-              new Date(m.plan_expires_at) < new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
-            ).length,
-            bg: '#FEF2F2',
-          },
+
         ].map((stat) => (
           <div key={stat.label} style={{
             background: stat.bg,
@@ -270,7 +250,7 @@ export default function MembersManager({ initialMembers }: Props) {
           }}
         >
           <option value="all">All Plans</option>
-          <option value="monthly">Monthly</option>
+
           <option value="lifetime">Lifetime</option>
         </select>
 
@@ -353,9 +333,7 @@ export default function MembersManager({ initialMembers }: Props) {
                     ? 'none'
                     : '1px solid var(--color-hairline-soft)',
                 alignItems: 'center',
-                background: isExpiringSoon(member)
-                  ? '#FEF2F2'
-                  : 'var(--color-canvas)',
+                background: 'var(--color-canvas)',
               }}>
 
                 {/* Name / Email */}
@@ -388,17 +366,13 @@ export default function MembersManager({ initialMembers }: Props) {
                     borderRadius: 'var(--radius-sm)',
                     background: member.plan === 'lifetime'
                       ? 'var(--color-badge-lifetime-bg)'
-                      : member.plan === 'monthly'
-                        ? 'var(--color-badge-monthly-bg)'
-                        : '#F3F4F6',
+                      : '#F3F4F6',
                     color: member.plan === 'lifetime'
                       ? 'var(--color-badge-lifetime-text)'
-                      : member.plan === 'monthly'
-                        ? 'var(--color-badge-monthly-text)'
-                        : '#6B7280',
+                      : '#6B7280',
                     fontFamily: 'var(--font-sans)',
                   }}>
-                    {member.plan === 'lifetime' ? 'Lifetime' : member.plan === 'monthly' ? 'Monthly' : 'Free'}
+                    {member.plan === 'lifetime' ? 'Lifetime' : 'Free'}
                   </span>
                 </div>
 
@@ -406,19 +380,19 @@ export default function MembersManager({ initialMembers }: Props) {
                 <div style={{ padding: '14px 16px' }}>
                   <p style={{
                     fontSize: '13px',
-                    color: isExpiringSoon(member) ? '#DC2626' : 'var(--color-charcoal)',
+                    color: 'var(--color-charcoal)',
                     fontFamily: 'var(--font-sans)',
-                    fontWeight: isExpiringSoon(member) ? '500' : '400',
+                    fontWeight: '400',
                     margin: '0',
                   }}>
                     {member.plan === 'lifetime'
                       ? '∞ Lifetime'
                       : member.plan_expires_at
-                        ? `${isExpiringSoon(member) ? '⚠️ ' : ''}${new Date(member.plan_expires_at).toLocaleDateString('en-PK', {
+                        ? new Date(member.plan_expires_at).toLocaleDateString('en-PK', {
                           day: 'numeric',
                           month: 'short',
                           year: 'numeric',
-                        })}`
+                        })
                         : '—'}
                   </p>
                 </div>
@@ -444,22 +418,7 @@ export default function MembersManager({ initialMembers }: Props) {
                   display: 'flex',
                   gap: '8px',
                 }}>
-                  <button
-                    onClick={() => handleQuickPlan(member, 'monthly')}
-                    style={{
-                      background: 'var(--color-badge-monthly-bg)',
-                      border: 'none',
-                      borderRadius: 'var(--radius-sm)',
-                      padding: '5px 10px',
-                      fontSize: '12px',
-                      color: 'var(--color-badge-monthly-text)',
-                      fontFamily: 'var(--font-sans)',
-                      cursor: 'pointer',
-                      fontWeight: '500',
-                    }}
-                  >
-                    Monthly
-                  </button>
+
                   <button
                     onClick={() => handleQuickPlan(member, 'lifetime')}
                     style={{
@@ -558,9 +517,7 @@ export default function MembersManager({ initialMembers }: Props) {
                         setEditForm({
                           ...editForm,
                           plan: newPlan,
-                          plan_expires_at: newPlan === 'monthly'
-                            ? new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10)
-                            : '',
+                          plan_expires_at: '',
                         })
                       }}
                       style={{
@@ -576,42 +533,12 @@ export default function MembersManager({ initialMembers }: Props) {
                       }}
                     >
                       <option value="">Free</option>
-                      <option value="monthly">Monthly</option>
+
                       <option value="lifetime">Lifetime</option>
                     </select>
                   </div>
 
-                  {/* Expiry Date */}
-                  {editForm.plan === 'monthly' && (
-                    <div>
-                      <label style={{
-                        display: 'block',
-                        fontSize: '12px',
-                        fontWeight: '500',
-                        color: 'var(--color-ink)',
-                        fontFamily: 'var(--font-sans)',
-                        marginBottom: '6px',
-                      }}>
-                        Expiry Date
-                      </label>
-                      <input
-                        type="date"
-                        value={editForm.plan_expires_at}
-                        onChange={(e) => setEditForm({ ...editForm, plan_expires_at: e.target.value })}
-                        style={{
-                          height: '36px',
-                          padding: '0 10px',
-                          background: 'var(--color-canvas)',
-                          border: '1px solid var(--color-hairline-strong)',
-                          borderRadius: 'var(--radius-md)',
-                          fontSize: '13px',
-                          color: 'var(--color-ink)',
-                          fontFamily: 'var(--font-sans)',
-                          outline: 'none',
-                        }}
-                      />
-                    </div>
-                  )}
+
 
                   {/* Active Toggle */}
                   <div style={{

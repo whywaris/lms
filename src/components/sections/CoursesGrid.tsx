@@ -186,7 +186,7 @@ export default function CoursesGrid({ courses, categories }: CoursesGridProps) {
                       <span style={{
                         display: 'inline-block',
                         background: 'var(--color-tint-lavender)',
-                        color: 'var(--color-badge-monthly-text)',
+                        color: 'var(--color-ink-deep)',
                         fontSize: '11px',
                         fontWeight: '500',
                         padding: '2px 8px',

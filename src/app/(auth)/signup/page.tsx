@@ -14,7 +14,7 @@ export default function SignupPage() {
   const [fullName, setFullName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [plan, setPlan] = useState<'monthly' | 'lifetime' | null>(null)
+
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
