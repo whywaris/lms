@@ -272,6 +272,21 @@ export default function SignupPage() {
                 Log in
               </Link>
             </p>
+            <p style={{
+              fontSize: '13px',
+              color: 'var(--color-slate)',
+              fontFamily: 'var(--font-sans)',
+              margin: '8px 0 0',
+            }}>
+              Forgot your password?{' '}
+              <Link href="/forgot-password" style={{
+                color: 'var(--color-primary)',
+                textDecoration: 'none',
+                fontWeight: '500',
+              }}>
+                Reset it
+              </Link>
+            </p>
           </div>
 
         </div>
