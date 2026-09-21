@@ -98,6 +98,8 @@ export default function Testimonials() {
                   src={r.avatar}
                   alt={r.name}
                   className="testi-avatar"
+                  loading="lazy"
+                  decoding="async"
                   width={48}
                   height={48}
                 />

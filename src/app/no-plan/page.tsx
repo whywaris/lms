@@ -1,53 +1,56 @@
-import Link from 'next/link'
+import type { Metadata } from 'next'
+import Navbar from '@/components/ui/Navbar'
+import Footer from '@/components/sections/Footer'
+import LockedContent from '@/components/ui/LockedContent'
+import { createClient } from '@/lib/supabase/server'
 
-export default function NoPlanPage() {
+export const metadata: Metadata = {
+  title: 'Lifetime Members Only | PandaCourses',
+  robots: {
+    index: false,
+    follow: true,
+  },
+}
+
+export default async function NoPlanPage() {
+  let isLoggedIn = false
+  let courseCount: number | undefined = undefined
+
+  try {
+    const supabase = await createClient()
+
+    const [{ data: { user } }, { count }] = await Promise.all([
+      supabase.auth.getUser(),
+      supabase
+        .from('public_courses')
+        .select('*', { count: 'exact', head: true })
+        .eq('is_published', true),
+    ])
+
+    isLoggedIn = !!user
+    if (typeof count === 'number' && count > 0) {
+      courseCount = count
+    }
+  } catch (err) {
+    console.error('Error loading locked content data:', err)
+  }
+
   return (
-    <main style={{
-      minHeight: '100vh',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      background: 'var(--color-canvas)',
-      padding: '32px',
-      textAlign: 'center',
-    }}>
-      <div style={{ maxWidth: '480px' }}>
-        <div style={{ fontSize: '64px', marginBottom: '24px' }}>🔒</div>
-        <h1 style={{
-          fontSize: '28px',
-          fontWeight: '600',
-          color: 'var(--color-ink-deep)',
-          fontFamily: 'var(--font-sans)',
-          margin: '0 0 12px',
-        }}>
-          No Active Plan
-        </h1>
-        <p style={{
-          fontSize: '15px',
-          color: 'var(--color-slate)',
-          fontFamily: 'var(--font-sans)',
-          lineHeight: '1.7',
-          margin: '0 0 32px',
-        }}>
-          You need an active plan to access courses. 
-          Get lifetime access to 2000+ courses with a one-time payment.
-        </p>
-        <Link href="/pricing" style={{
-          display: 'inline-flex',
+    <main style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+      <Navbar />
+      <section
+        style={{
+          flex: 1,
+          display: 'flex',
           alignItems: 'center',
-          gap: '8px',
-          background: 'var(--color-primary)',
-          color: 'white',
-          padding: '13px 28px',
-          borderRadius: 'var(--radius-md)',
-          fontSize: '15px',
-          fontWeight: '500',
-          textDecoration: 'none',
-          fontFamily: 'var(--font-sans)',
-        }}>
-          ⭐ View Plans
-        </Link>
-      </div>
+          justifyContent: 'center',
+          background: 'var(--color-canvas)',
+          padding: '64px 24px 80px',
+        }}
+      >
+        <LockedContent isLoggedIn={isLoggedIn} courseCount={courseCount} />
+      </section>
+      <Footer />
     </main>
   )
 }

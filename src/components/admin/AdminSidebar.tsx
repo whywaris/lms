@@ -10,6 +10,7 @@ const navItems = [
   { label: 'Blog Posts', href: '/admin/blog', icon: '✍️' },
   { label: 'Announcements', href: '/admin/announcements', icon: '📢' },
   { label: 'Members', href: '/admin/members', icon: '👥' },
+  { label: 'Emails', href: '/admin/emails', icon: '✉️' },
   { label: 'Audit Log', href: '/admin/audit', icon: '🔍' },
   { label: 'Redirects', href: '/admin/redirects', icon: '🔗' },
 ]

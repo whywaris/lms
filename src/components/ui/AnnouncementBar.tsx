@@ -8,6 +8,8 @@ export default async function AnnouncementBar() {
       .from('announcements')
       .select('*')
       .eq('is_active', true)
+      .eq('audience', 'homepage')
+      .order('created_at', { ascending: false })
       .limit(1)
       .maybeSingle()
 

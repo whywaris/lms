@@ -154,6 +154,7 @@ export default function CoursesGrid({ courses, categories }: CoursesGridProps) {
               <Link 
                 key={course.id} 
                 href={`/course/${course.slug}`}
+                prefetch={false}
                 style={{ textDecoration: 'none', display: 'block' }}
               >
                 <div style={{
@@ -171,6 +172,10 @@ export default function CoursesGrid({ courses, categories }: CoursesGridProps) {
                       <img
                         src={course.image_url}
                         alt={course.course_name}
+                        loading="lazy"
+                        decoding="async"
+                        width={300}
+                        height={300}
                         style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
                       />
                     ) : (
@@ -245,15 +250,12 @@ export default function CoursesGrid({ courses, categories }: CoursesGridProps) {
           <div style={{ textAlign: 'center', padding: '80px 32px' }}>
             <div style={{ fontSize: '48px', marginBottom: '16px' }}>🔍</div>
             <h3 style={{ fontSize: '22px', fontWeight: '600', color: 'var(--color-ink-deep)', marginBottom: '8px', fontFamily: 'var(--font-sans)' }}>
-              Oops, Nothing Here Yet!
+              No Courses Found
             </h3>
-            <p style={{ fontSize: '15px', color: 'var(--color-slate)', marginBottom: '4px', fontFamily: 'var(--font-sans)' }}>
-              Looks like this content is for Lifetime Members only.
+            <p style={{ fontSize: '15px', color: 'var(--color-slate)', marginBottom: '24px', fontFamily: 'var(--font-sans)' }}>
+              Try searching with different keywords or browse all categories.
             </p>
-            <p style={{ fontSize: '14px', color: 'var(--color-slate)', marginBottom: '24px', fontFamily: 'var(--font-sans)' }}>
-              Grab lifetime access to 2000+ courses with a one-time payment.
-            </p>
-            <Link href="/pricing" style={{
+            <Link href="/courses" style={{
               display: 'inline-flex',
               alignItems: 'center',
               gap: '8px',
@@ -266,7 +268,7 @@ export default function CoursesGrid({ courses, categories }: CoursesGridProps) {
               textDecoration: 'none',
               fontFamily: 'var(--font-sans)',
             }}>
-              ⭐ Get Lifetime Access
+              Browse All Courses
             </Link>
           </div>
         )}

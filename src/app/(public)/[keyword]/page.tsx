@@ -195,6 +195,7 @@ export default async function KeywordLandingPage({ params }: Props) {
                 <Link
                   key={course.id}
                   href={`/course/${course.slug}`}
+                  prefetch={false}
                   style={{ textDecoration: 'none', color: 'inherit' }}
                 >
                   <div style={{
@@ -208,6 +209,10 @@ export default async function KeywordLandingPage({ params }: Props) {
                       <img
                         src={course.image_url}
                         alt={course.course_name}
+                        loading="lazy"
+                        decoding="async"
+                        width={300}
+                        height={300}
                         style={{ width: '100%', height: '100%', aspectRatio: '1/1', objectFit: 'cover', display: 'block' }}
                       />
                     ) : (

@@ -136,6 +136,7 @@ export default async function TagPage({
             <Link
               key={course.id}
               href={`/course/${course.slug}`}
+              prefetch={false}
               style={{ textDecoration: 'none' }}
             >
               <div style={{
@@ -149,6 +150,10 @@ export default async function TagPage({
                     <img
                       src={course.image_url}
                       alt={course.course_name}
+                      loading="lazy"
+                      decoding="async"
+                      width={360}
+                      height={200}
                       style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
                     />
                   ) : (

@@ -7,7 +7,7 @@ export async function GET(request: NextRequest) {
   const token_hash = searchParams.get('token_hash')
   const type = searchParams.get('type')
 
-  if (token_hash && type === 'recovery') {
+  if (token_hash && (type === 'recovery' || type === 'signup' || type === 'email')) {
     const cookieStore = await cookies()
     const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -15,9 +15,16 @@ export async function GET(request: NextRequest) {
       { cookies: { getAll: () => cookieStore.getAll(), setAll: (c) => c.forEach(({ name, value, options }) => cookieStore.set(name, value, options)) } }
     )
 
-    const { error } = await supabase.auth.verifyOtp({ token_hash, type: 'recovery' })
+    const { data, error } = await supabase.auth.verifyOtp({ token_hash, type: type as any })
     if (!error) {
-      return NextResponse.redirect(new URL('/reset-password', request.url))
+      if (type === 'recovery') {
+        return NextResponse.redirect(new URL('/reset-password', request.url))
+      }
+      if (data?.user) {
+        const { sendWelcomeIfNeeded } = await import('@/lib/email/welcome')
+        await sendWelcomeIfNeeded(data.user.id).catch(() => {})
+      }
+      return NextResponse.redirect(new URL('/dashboard', request.url))
     }
   }
 

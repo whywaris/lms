@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { triggerWelcomeEmail } from '@/app/actions/auth'
 
 
 
@@ -48,6 +49,9 @@ export default function SignupPage() {
         plan_expires_at: expiryDate,
         is_active: true,
       })
+
+      // Send welcome email if needed (non-blocking)
+      triggerWelcomeEmail(data.user.id).catch(() => {})
     }
 
     router.refresh()

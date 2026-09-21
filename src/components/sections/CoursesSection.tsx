@@ -18,7 +18,7 @@ export default async function CoursesSection() {
     .select('*')
     .eq('is_published', true)
     .not('image_url', 'is', null)
-    .limit(14)
+    .limit(16)
 
   const shuffled = shuffleArray(courses || [])
 
@@ -62,6 +62,7 @@ export default async function CoursesSection() {
                 <Link
                   key={course.id}
                   href={`/course/${course.slug}`}
+                  prefetch={false}
                   style={{ textDecoration: 'none', display: 'block' }}
                 >
                   <div style={{
@@ -81,9 +82,13 @@ export default async function CoursesSection() {
                       overflow: 'hidden',
                     }}>
                       {course.image_url ? (
-                        <img 
-                          src={course.image_url} 
+                        <img
+                          src={course.image_url}
                           alt={course.course_name}
+                          loading="lazy"
+                          decoding="async"
+                          width={300}
+                          height={300}
                           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                         />
                       ) : (
@@ -108,7 +113,7 @@ export default async function CoursesSection() {
                           {course.category}
                         </span>
                       )}
-                      
+
                       <h3 style={{
                         fontSize: '13px',
                         fontWeight: '600',

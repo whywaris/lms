@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
+import { sendPlanActivatedEmail } from '@/app/actions/admin'
 
 interface Member {
   id: string
@@ -71,10 +72,23 @@ export default function MembersManager({ initialMembers }: Props) {
     if (data) {
       setMembers(members.map(m => m.id === id ? data : m))
 
+      const targetMember = members.find(m => m.id === id)
+      let emailNote = ''
+      if (editForm.plan === 'lifetime') {
+        try {
+          const emailRes = await sendPlanActivatedEmail({
+            userId: id,
+            email: targetMember?.email || data.email,
+            name: targetMember?.full_name || data.full_name,
+          })
+          emailNote = emailRes.ok ? ' (activation email sent)' : ' (activation email failed)'
+        } catch {}
+      }
+
       // Audit log
       await supabase.from('audit_logs').insert({
-        action: `Plan updated to ${editForm.plan}`,
-        target_user_email: members.find(m => m.id === id)?.email,
+        action: `Plan updated to ${editForm.plan || 'none'}${emailNote}`,
+        target_user_email: targetMember?.email || data.email,
       })
     }
 
@@ -118,9 +132,21 @@ export default function MembersManager({ initialMembers }: Props) {
     if (data) {
       setMembers(members.map(m => m.id === member.id ? data : m))
 
+      let emailNote = ''
+      if (plan === 'lifetime') {
+        try {
+          const emailRes = await sendPlanActivatedEmail({
+            userId: member.id,
+            email: member.email,
+            name: member.full_name,
+          })
+          emailNote = emailRes.ok ? ' (activation email sent)' : ' (activation email failed)'
+        } catch {}
+      }
+
       // Audit log
       await supabase.from('audit_logs').insert({
-        action: `Plan assigned: ${plan}`,
+        action: `Plan assigned: ${plan}${emailNote}`,
         target_user_email: member.email,
       })
 

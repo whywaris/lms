@@ -101,10 +101,38 @@ a {
 @media (max-width: 768px) {
   .hero-grid {
     grid-template-columns: 1fr !important;
-    gap: 32px !important;
+    gap: 36px !important;
   }
-  .hero-image {
+  .hero-visual-wrapper {
+    order: 2;
+    width: 100% !important;
+    margin-top: 8px;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-section {
+    padding: 36px 16px !important;
+  }
+  /* On mobile, hide the collage tiles beyond the first 2 */
+  .hero-collage-tile:nth-child(n+3) {
     display: none !important;
+  }
+  .hero-collage-tile {
+    transform: none !important;
+  }
+  /* Keep the chips stacked or wrapped below */
+  .hero-chips-container {
+    position: static !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+    justify-content: center !important;
+    margin-top: 16px !important;
+  }
+  .hero-stat-chip {
+    position: static !important;
+    transform: none !important;
   }
 }
 
@@ -161,17 +189,63 @@ a {
   }
 }
 
-/* Reviews Grid */
-@media (max-width: 1024px) {
-  .reviews-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
+/* Reviews Carousel */
+.reviews-carousel-track {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.reviews-carousel-track::-webkit-scrollbar {
+  display: none;
+}
+
+/* Desktop (>= 1024px): 3 slides visible */
+.reviews-carousel-slide {
+  flex: 0 0 calc((100% - 32px) / 3);
+  aspect-ratio: 3 / 4;
+  height: auto;
+}
+
+/* Tablet (640px to 1023px): 2 slides visible */
+@media (max-width: 1023px) and (min-width: 640px) {
+  .reviews-carousel-slide {
+    flex: 0 0 calc((100% - 16px) / 2) !important;
+    aspect-ratio: 3 / 4 !important;
+    height: auto !important;
   }
 }
 
-@media (max-width: 640px) {
-  .reviews-grid {
-    grid-template-columns: 1fr !important;
+/* Mobile (< 640px): 1 slide with a small peek of the next slide */
+@media (max-width: 639px) {
+  .reviews-carousel-slide {
+    flex: 0 0 calc(84% - 10px) !important;
+    aspect-ratio: 3 / 4 !important;
+    height: auto !important;
   }
+  .reviews-nav-prev {
+    left: -6px !important;
+  }
+  .reviews-nav-next {
+    right: -6px !important;
+  }
+}
+
+.reviews-nav-btn:focus-visible,
+.reviews-carousel-slide:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* FAQ Details Summary Marker Reset */
+details summary::-webkit-details-marker,
+details summary::marker {
+  display: none;
+  content: "";
+}
+
+/* Performance: Deferred Content Visibility */
+.defer-render {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 600px;
 }
 
 /* Course Product Page */
@@ -1412,3 +1486,140 @@ a {
 @media (max-width: 768px) {
   .testi-grid { grid-template-columns: 1fr !important; }
 }
+
+/* How to Buy Responsive Rules */
+.how-to-buy-steps-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.how-to-buy-benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+@media (max-width: 1023px) and (min-width: 640px) {
+  .how-to-buy-steps-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 20px !important;
+  }
+  .how-to-buy-benefits-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 20px !important;
+  }
+}
+
+@media (max-width: 639px) {
+  .how-to-buy-steps-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+  .how-to-buy-benefits-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .mobile-sticky-cta {
+    display: none !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .how-to-buy-page {
+    padding-bottom: 74px !important;
+  }
+}
+
+/* ==========================================================================
+   Member Dashboard Dark Theme Support
+   ========================================================================== */
+.dashboard-root {
+  min-height: 100vh;
+  background-color: var(--color-canvas);
+  color: var(--color-ink);
+}
+
+.dashboard-root,
+.dashboard-root nav,
+.dashboard-root header,
+.dashboard-root section,
+.dashboard-root footer,
+.dashboard-root div,
+.dashboard-root p,
+.dashboard-root h1,
+.dashboard-root h2,
+.dashboard-root h3,
+.dashboard-root span,
+.dashboard-root button,
+.dashboard-root input,
+.dashboard-root a {
+  transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease;
+}
+
+.dashboard-theme-toggle-btn:focus-visible {
+  outline: 2px solid var(--color-primary) !important;
+  outline-offset: 2px !important;
+}
+
+.dashboard-theme-toggle-btn:hover {
+  transform: scale(1.05);
+}
+
+.dashboard-root[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* Surfaces & Backgrounds */
+  --color-canvas: #14142B;
+  --color-surface: #1B1B36;
+  --color-surface-soft: #222242;
+
+  /* Borders / Hairlines */
+  --color-hairline: #2E2E52;
+  --color-hairline-soft: #262647;
+  --color-hairline-strong: #3D3D66;
+
+  /* Inks / Typography */
+  --color-ink-deep: #F5F5FA;
+  --color-ink: #E6E6F0;
+  --color-charcoal: #D6D6E4;
+  --color-slate: #B4B4C8;
+  --color-steel: #9A9AB4;
+  --color-stone: #8888A4;
+  --color-muted: #6E6E8C;
+
+  /* Brand Colors */
+  --color-brand-navy: #0F0E24;
+  --color-on-dark: #FFFFFF;
+  --color-on-dark-muted: rgba(255, 255, 255, 0.6);
+
+  /* Card Tints (Dark translucent versions) */
+  --color-tint-peach: rgba(255, 112, 67, 0.15);
+  --color-tint-rose: rgba(244, 63, 94, 0.15);
+  --color-tint-mint: rgba(16, 185, 129, 0.15);
+  --color-tint-lavender: rgba(107, 78, 255, 0.18);
+  --color-tint-sky: rgba(59, 130, 246, 0.15);
+  --color-tint-yellow: rgba(234, 179, 8, 0.15);
+  --color-tint-yellow-bold: rgba(234, 179, 8, 0.25);
+
+  /* Badges */
+  --color-badge-monthly-bg: rgba(107, 78, 255, 0.25);
+  --color-badge-monthly-text: #C4B5FD;
+  --color-badge-lifetime-bg: rgba(39, 80, 10, 0.4);
+  --color-badge-lifetime-text: #86EFAC;
+
+  /* Shadows */
+  --shadow-sm: rgba(0, 0, 0, 0.25) 0px 1px 2px 0px;
+  --shadow-md: rgba(0, 0, 0, 0.4) 0px 4px 12px 0px;
+  --shadow-lg: rgba(0, 0, 0, 0.6) 0px 24px 48px -8px;
+}
+
+.dashboard-root[data-theme="dark"] input::placeholder {
+  color: var(--color-steel);
+  opacity: 1;
+}
+
+

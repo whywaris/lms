@@ -169,6 +169,10 @@ export default function BlogContent({ posts }: Props) {
                       <img
                         src={featuredPost.cover_image}
                         alt={featuredPost.title}
+                        loading="lazy"
+                        decoding="async"
+                        width={600}
+                        height={400}
                         style={{
                           width: '100%',
                           height: '100%',
@@ -267,6 +271,10 @@ export default function BlogContent({ posts }: Props) {
                       <img
                         src={post.cover_image}
                         alt={post.title}
+                        loading="lazy"
+                        decoding="async"
+                        width={400}
+                        height={200}
                         style={{
                           width: '100%',
                           height: '200px',

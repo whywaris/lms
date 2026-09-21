@@ -3,6 +3,7 @@ import Navbar from '@/components/ui/Navbar'
 import Footer from '@/components/sections/Footer'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import { autoLinkContent, AutoLinkTarget } from '@/lib/autoLinkContent'
 
 export async function generateMetadata({
   params,
@@ -36,13 +37,52 @@ export default async function BlogPostPage({
 
   if (!post) notFound()
 
-  // Related Posts
-  const { data: relatedPosts } = await supabase
-    .from('blog_posts')
-    .select('*')
-    .eq('is_published', true)
-    .neq('id', post.id)
-    .limit(2)
+  // Related Posts and Interlinking Targets
+  const [
+    { data: relatedPosts },
+    { data: allCourses },
+    { data: allPosts },
+    { data: linkRules }
+  ] = await Promise.all([
+    supabase
+      .from('blog_posts')
+      .select('*')
+      .eq('is_published', true)
+      .neq('id', post.id)
+      .limit(2),
+    supabase
+      .from('public_courses')
+      .select('course_name, slug')
+      .eq('is_published', true),
+    supabase
+      .from('blog_posts')
+      .select('title, slug')
+      .eq('is_published', true),
+    supabase
+      .from('link_rules')
+      .select('keyword, url, priority')
+      .eq('is_active', true)
+  ])
+
+  const targets: AutoLinkTarget[] = [
+    ...(linkRules || []).map((lr) => ({
+      keyword: lr.keyword,
+      url: lr.url,
+      priority: lr.priority ?? 0,
+    })),
+    ...(allCourses || []).map((c) => ({
+      keyword: c.course_name,
+      slug: c.slug,
+      type: 'course' as const,
+      priority: 0,
+    })),
+    ...(allPosts || []).map((p) => ({
+      keyword: p.title,
+      slug: p.slug,
+      type: 'blog' as const,
+      priority: 0,
+    })),
+  ]
 
   // Dynamic Table of Contents & Content ID injection
   const headings: { id: string; text: string }[] = []
@@ -75,6 +115,9 @@ export default async function BlogPostPage({
     headings.push({ id: uniqueSlug, text: cleanText })
     return `<${tag} id="${uniqueSlug}">${text}</${tag}>`
   })
+
+  // Auto-link keywords to courses, blog posts, and custom link rules (excluding current slug)
+  processedContent = autoLinkContent(processedContent, targets, `/blog/${params.slug}`, 6)
 
   return (
     <main style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', width: '100%' }}>
@@ -136,6 +179,10 @@ export default async function BlogPostPage({
             <img
               src={post.cover_image}
               alt={post.title}
+              loading="lazy"
+              decoding="async"
+              width={800}
+              height={450}
               style={{
                 width: '100%',
                 borderRadius: 'var(--radius-lg)',
@@ -229,6 +276,10 @@ export default async function BlogPostPage({
             <img
               src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=56&h=56&fit=crop&crop=face"
               alt="Author"
+              loading="lazy"
+              decoding="async"
+              width={56}
+              height={56}
               style={{
                 width: '56px',
                 height: '56px',
