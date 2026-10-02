@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google'
 import Script from 'next/script'
 import GoogleAnalytics from '@/components/analytics/GoogleAnalytics'
 import Clarity from '@/components/analytics/Clarity'
+import SourceTracker from '@/components/analytics/SourceTracker'
 import CookieConsent from '@/components/ui/CookieConsent'
 import './globals.css'
 
@@ -53,6 +54,7 @@ export default function RootLayout({
         {children}
         <GoogleAnalytics />
         <Clarity />
+        <SourceTracker />
         <CookieConsent />
       </body>
     </html>

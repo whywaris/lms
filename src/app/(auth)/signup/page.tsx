@@ -40,6 +40,16 @@ export default function SignupPage() {
     if (data.user) {
       // Profile banao
       const expiryDate = null
+      let signupSource = 'direct'
+      try {
+        if (typeof window !== 'undefined') {
+          const urlParams = new URLSearchParams(window.location.search)
+          const paramSource = urlParams.get('ref') || urlParams.get('utm_source')
+          signupSource = paramSource || localStorage.getItem('signup_source') || 'direct'
+        }
+      } catch {
+        signupSource = 'direct'
+      }
 
       await supabase.from('profiles').insert({
         id: data.user.id,
@@ -48,6 +58,7 @@ export default function SignupPage() {
         plan: null,
         plan_expires_at: expiryDate,
         is_active: true,
+        source: signupSource.toLowerCase().slice(0, 50),
       })
 
       // Send welcome email if needed (non-blocking)

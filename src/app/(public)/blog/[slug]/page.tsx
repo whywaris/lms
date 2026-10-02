@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import Navbar from '@/components/ui/Navbar'
 import Footer from '@/components/sections/Footer'
+import PageViewTracker from '@/components/analytics/PageViewTracker'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { autoLinkContent, AutoLinkTarget } from '@/lib/autoLinkContent'
@@ -122,6 +123,12 @@ export default async function BlogPostPage({
   return (
     <main style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', width: '100%' }}>
       <Navbar />
+
+      <PageViewTracker
+        path={`/blog/${params.slug}`}
+        pageType="blog"
+        slug={params.slug}
+      />
 
       <div style={{ flex: 1, width: '100%' }}>
         {/* Breadcrumb */}

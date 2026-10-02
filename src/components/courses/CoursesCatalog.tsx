@@ -731,7 +731,7 @@ function CoursesCatalogInner({
             {paginated.map((course, idx) => (
               <React.Fragment key={course.id}>
                 <Link
-                  href={`/course/${course.slug}`}
+                  href={`/courses/${course.slug}`}
                   prefetch={false}
                   style={{ textDecoration: 'none', display: 'flex' }}
                 >

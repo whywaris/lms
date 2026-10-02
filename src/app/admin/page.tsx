@@ -1,6 +1,11 @@
 import { createClient } from '@/lib/supabase/server'
 import AdminSidebar from '@/components/admin/AdminSidebar'
 import RedirectManager from '@/components/admin/RedirectManager'
+import UserSignupsChart from '@/components/admin/UserSignupsChart'
+import ConversionAnalyticsCard from '@/components/admin/ConversionAnalyticsCard'
+import SignupsBySourceCard from '@/components/admin/SignupsBySourceCard'
+import TopPagesAnalytics from '@/components/admin/TopPagesAnalytics'
+import { computeSignupStats, computeTopPages } from '@/lib/admin/signupStats'
 import { redirect } from 'next/navigation'
 import { Metadata } from 'next'
 
@@ -24,22 +29,48 @@ export default async function AdminDashboard() {
   const [
     { count: totalCourses },
     { count: totalMembers },
-
     { count: lifetimeMembers },
     { count: totalBlogs },
     { count: totalPublicCourses },
     { data: recentMembers },
     { data: redirects },
+    profilesRes,
+    { data: publicCoursesList },
+    { data: blogPostsList },
+    pageViewsRes,
   ] = await Promise.all([
     supabase.from('courses').select('*', { count: 'exact', head: true }),
     supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('role', 'student'),
-
     supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('plan', 'lifetime').eq('role', 'student'),
     supabase.from('blog_posts').select('*', { count: 'exact', head: true }),
     supabase.from('public_courses').select('*', { count: 'exact', head: true }).eq('is_published', true),
     supabase.from('profiles').select('*').eq('role', 'student').order('created_at', { ascending: false }).limit(5),
     supabase.from('redirects').select('*').order('created_at', { ascending: false }),
+    supabase.from('profiles').select('created_at, plan, source').eq('role', 'student'),
+    supabase.from('public_courses').select('course_name, slug'),
+    supabase.from('blog_posts').select('title, slug'),
+    supabase.from('page_views').select('path, page_type, slug, created_at').order('created_at', { ascending: false }).limit(5000),
   ])
+
+  // Fallback gracefully if profiles.source column is not yet migrated in DB
+  let profilesData: Array<{ created_at: string | null; plan?: string | null; source?: string | null }> | null =
+    (profilesRes?.data as any) || null
+  if (profilesRes?.error) {
+    const { data: fallbackProfiles } = await supabase
+      .from('profiles')
+      .select('created_at, plan')
+      .eq('role', 'student')
+    profilesData = fallbackProfiles as any
+  }
+
+  const pageViewsData = pageViewsRes?.data || []
+
+  const signupStats = computeSignupStats(profilesData || [])
+  const topPagesStats = computeTopPages(
+    pageViewsData as any,
+    (publicCoursesList || []) as any,
+    (blogPostsList || []) as any
+  )
 
   const stats = [
     { label: 'Total Courses', value: totalCourses || 0, icon: '📚', tint: 'var(--color-tint-lavender)' },
@@ -122,6 +153,18 @@ export default async function AdminDashboard() {
             </div>
           ))}
         </div>
+
+        {/* User Signups Section */}
+        <UserSignupsChart initialStats={signupStats} />
+
+        {/* Conversion Rate & Funnel Section */}
+        <ConversionAnalyticsCard stats={signupStats.conversion} />
+
+        {/* Signups by Source Section */}
+        <SignupsBySourceCard sources={signupStats.sources} />
+
+        {/* Top Pages / Top Courses Traffic Section */}
+        <TopPagesAnalytics topPages={topPagesStats} />
 
         {/* Recent Members */}
         <div style={{

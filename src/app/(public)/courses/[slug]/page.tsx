@@ -4,6 +4,7 @@ import Footer from '@/components/sections/Footer'
 import StickyCTA from '@/components/ui/StickyCTA'
 import ExpandableContent from '@/components/ui/ExpandableContent'
 import ReviewsCarousel from '@/components/sections/ReviewsCarousel'
+import PageViewTracker from '@/components/analytics/PageViewTracker'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { autoLinkContent, AutoLinkTarget } from '@/lib/autoLinkContent'
@@ -27,7 +28,7 @@ export async function generateMetadata({
     : 'Course | PandaCourses'
   const description = course?.short_description?.slice(0, 155) || 'Buy this course on PandaCourses and get instant Mega/Google Drive access.'
   const image = course?.image_url || 'https://pandacourses.com/og-default.jpg'
-  const url = `https://pandacourses.com/course/${slug}`
+  const url = `https://pandacourses.com/courses/${slug}`
 
   return {
     title,
@@ -283,6 +284,12 @@ export default async function CoursePage({
       `}</style>
 
       <Navbar />
+
+      <PageViewTracker
+        path={`/courses/${params.slug}`}
+        pageType="course"
+        slug={params.slug}
+      />
 
       <StickyCTA
         courseName={course.course_name}
