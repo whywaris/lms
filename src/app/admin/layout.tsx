@@ -1,6 +1,11 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import BackToTop from '@/components/ui/BackToTop'
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  robots: { index: false, follow: false },
+}
 
 export default async function AdminLayout({
   children,

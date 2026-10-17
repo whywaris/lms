@@ -1,45 +1,12 @@
-import { MetadataRoute } from 'next'
+import type { MetadataRoute } from 'next'
 
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: [
-      {
-        userAgent: '*',
-        allow: '/',
-        disallow: [
-          '/admin',
-          '/admin/',
-          '/dashboard',
-          '/dashboard/',
-          '/no-plan',
-          '/login',
-          '/signup',
-          '/unsubscribe',
-          '/api',
-          '/api/',
-          '/actions/',
-        ],
-      },
-      {
-        userAgent: 'Googlebot',
-        allow: '/',
-        disallow: [
-          '/admin',
-          '/admin/',
-          '/dashboard',
-          '/dashboard/',
-          '/no-plan',
-          '/login',
-          '/signup',
-          '/unsubscribe',
-          '/api',
-          '/api/',
-          '/actions/',
-        ],
-      },
-    ],
-    sitemap: [
-      'https://pandacourses.com/sitemap.xml',
-    ],
+    rules: {
+      userAgent: '*',
+      allow: '/',
+      disallow: ['/admin', '/dashboard', '/login', '/signup', '/api'],
+    },
+    sitemap: 'https://pandacourses.com/sitemap.xml',
   }
 }

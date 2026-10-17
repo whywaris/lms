@@ -15,7 +15,7 @@ export function getTargetUrl(target: AutoLinkTarget): string | null {
     return target.url.trim()
   }
   if (target.slug && target.type) {
-    return target.type === 'course' ? `/course/${target.slug}` : `/blog/${target.slug}`
+    return target.type === 'course' ? `/courses/${target.slug}` : `/blog/${target.slug}`
   }
   return null
 }

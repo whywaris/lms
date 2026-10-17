@@ -194,7 +194,7 @@ export default async function KeywordLandingPage({ params }: Props) {
               {shuffled.map((course) => (
                 <Link
                   key={course.id}
-                  href={`/course/${course.slug}`}
+                  href={`/courses/${course.slug}`}
                   prefetch={false}
                   style={{ textDecoration: 'none', color: 'inherit' }}
                 >

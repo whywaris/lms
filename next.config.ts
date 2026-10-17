@@ -2,6 +2,7 @@ import type { NextConfig } from "next";
 import { createClient } from '@supabase/supabase-js'
 
 const nextConfig: NextConfig = {
+  trailingSlash: false,
   images: {
     remotePatterns: [
       {
@@ -26,6 +27,18 @@ const nextConfig: NextConfig = {
   async redirects() {
     const staticRedirects = [
       { source: '/course/:slug', destination: '/courses/:slug', permanent: true },
+      { source: '/refund-policy', destination: '/refund', permanent: true },
+      {
+        source: '/:path*',
+        has: [
+          {
+            type: 'host',
+            value: 'www.pandacourses.com',
+          },
+        ],
+        destination: 'https://pandacourses.com/:path*',
+        permanent: true,
+      },
     ]
 
     try {

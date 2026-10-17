@@ -971,7 +971,7 @@ export default function LegalPageLayout({
                   </Link>
                   <span style={{ color: 'rgba(255, 255, 255, 0.3)', fontSize: '12px' }}>•</span>
                   <Link
-                    href="/refund-policy"
+                    href="/refund"
                     style={{
                       fontSize: '13px',
                       color: 'var(--color-on-dark-muted, rgba(255, 255, 255, 0.6))',

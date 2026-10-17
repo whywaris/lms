@@ -77,7 +77,7 @@ export default async function PricingPage() {
           {REFUND_MODE === '7day' ? (
             <>
               We offer a 7-day money-back guarantee. Contact support within 7 days of purchase for a full refund. Please read our{' '}
-              <Link href="/refund-policy" style={{ color: 'var(--color-primary)', textDecoration: 'underline' }}>
+              <Link href="/refund" style={{ color: 'var(--color-primary)', textDecoration: 'underline' }}>
                 Refund Policy
               </Link>{' '}
               for full details.
@@ -85,7 +85,7 @@ export default async function PricingPage() {
           ) : (
             <>
               All sales are final. Please read our{' '}
-              <Link href="/refund-policy" style={{ color: 'var(--color-primary)', textDecoration: 'underline' }}>
+              <Link href="/refund" style={{ color: 'var(--color-primary)', textDecoration: 'underline' }}>
                 Refund Policy
               </Link>{' '}
               before purchasing.
@@ -537,7 +537,7 @@ export default async function PricingPage() {
                   <>
                     7-day money-back guarantee ·{' '}
                     <Link
-                      href="/refund-policy"
+                      href="/refund"
                       style={{ color: 'var(--color-primary)', textDecoration: 'underline' }}
                     >
                       See Refund Policy
@@ -547,7 +547,7 @@ export default async function PricingPage() {
                   <>
                     All sales are final ·{' '}
                     <Link
-                      href="/refund-policy"
+                      href="/refund"
                       style={{ color: 'var(--color-primary)', textDecoration: 'underline' }}
                     >
                       See Refund Policy

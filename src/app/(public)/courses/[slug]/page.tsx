@@ -159,7 +159,7 @@ export default async function CoursePage({
     })),
   ]
 
-  const linkedDescription = autoLinkContent(course.description || '', targets, `/course/${params.slug}`, 6)
+  const linkedDescription = autoLinkContent(course.description || '', targets, `/courses/${params.slug}`, 6)
 
   // Existing Course Schema
   const courseSchema = {
@@ -173,7 +173,7 @@ export default async function CoursePage({
       'url': 'https://pandacourses.com',
     },
     'image': course.image_url,
-    'url': `https://pandacourses.com/course/${course.slug}`,
+    'url': `https://pandacourses.com/courses/${course.slug}`,
     ...(course.tags?.length ? { 'keywords': course.tags.join(', ') } : {}),
   }
 
@@ -206,7 +206,7 @@ export default async function CoursePage({
     '@type': 'ListItem',
     'position': breadcrumbElements.length + 1,
     'name': course.course_name,
-    'item': `https://pandacourses.com/course/${course.slug}`,
+    'item': `https://pandacourses.com/courses/${course.slug}`,
   })
 
   const breadcrumbSchema = {
@@ -652,7 +652,7 @@ export default async function CoursePage({
                   <>
                     7-day money-back guarantee ·{' '}
                     <Link
-                      href="/refund-policy"
+                      href="/refund"
                       style={{
                         color: 'var(--color-ink-deep, #0F0F0F)',
                         textDecoration: 'underline',
@@ -666,7 +666,7 @@ export default async function CoursePage({
                   <>
                     All sales are final ·{' '}
                     <Link
-                      href="/refund-policy"
+                      href="/refund"
                       style={{
                         color: 'var(--color-ink-deep, #0F0F0F)',
                         textDecoration: 'underline',
@@ -878,14 +878,14 @@ export default async function CoursePage({
             {REFUND_MODE === '7day' ? (
               <>
                 7-day money-back guarantee ·{' '}
-                <Link href="/refund-policy" style={{ color: '#FFFFFF', textDecoration: 'underline' }}>
+                <Link href="/refund" style={{ color: '#FFFFFF', textDecoration: 'underline' }}>
                   Refund Policy
                 </Link>
               </>
             ) : (
               <>
                 All sales are final ·{' '}
-                <Link href="/refund-policy" style={{ color: '#FFFFFF', textDecoration: 'underline' }}>
+                <Link href="/refund" style={{ color: '#FFFFFF', textDecoration: 'underline' }}>
                   Refund Policy
                 </Link>
               </>
@@ -927,7 +927,7 @@ export default async function CoursePage({
             {relatedCourses.map((related) => (
               <Link
                 key={related.id}
-                href={`/course/${related.slug}`}
+                href={`/courses/${related.slug}`}
                 prefetch={false}
                 style={{
                   textDecoration: 'none',

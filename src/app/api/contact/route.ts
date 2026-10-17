@@ -271,7 +271,7 @@ ${cleanMessage}`
       </p>
       <div style="margin: 20px 0; padding: 16px 20px; background-color: #F9FAFB; border: 1px solid #E5E7EB; border-radius: 8px; font-size: 14px; color: #4B5563; line-height: 1.6; white-space: pre-wrap; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">${escapeHtml(cleanMessage)}</div>
       <p style="margin: 20px 0 0 0; font-size: 14px; color: #6B7280; line-height: 1.5; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
-        Need fast answers? Check our <a href="https://pandacourses.com/how-to-buy" style="color: #6B4EFF; text-decoration: underline;">How to Buy guide</a> or review our <a href="https://pandacourses.com/refund-policy" style="color: #6B4EFF; text-decoration: underline;">Refund Policy</a>.
+        Need fast answers? Check our <a href="https://pandacourses.com/how-to-buy" style="color: #6B4EFF; text-decoration: underline;">How to Buy guide</a> or review our <a href="https://pandacourses.com/refund" style="color: #6B4EFF; text-decoration: underline;">Refund Policy</a>.
       </p>
     `
 

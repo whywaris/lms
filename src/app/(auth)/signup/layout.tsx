@@ -1,4 +1,7 @@
-export const metadata = { title: 'Sign Up — PandaCourses' }
+export const metadata = {
+  title: 'Sign Up — PandaCourses',
+  robots: { index: false, follow: false },
+}
 
 export default function SignupLayout({
   children,

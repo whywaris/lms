@@ -135,7 +135,7 @@ export default async function TagPage({
           {courses.map((course) => (
             <Link
               key={course.id}
-              href={`/course/${course.slug}`}
+              href={`/courses/${course.slug}`}
               prefetch={false}
               style={{ textDecoration: 'none' }}
             >

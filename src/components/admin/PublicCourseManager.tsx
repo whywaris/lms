@@ -471,7 +471,7 @@ export default function PublicCourseManager({ initialCourses }: Props) {
                 </p>
                 {course.slug && (
                   <p style={{ fontSize: '12px', color: 'var(--color-steel)', fontFamily: 'var(--font-sans)', margin: '0' }}>
-                    /course/{course.slug}
+                    /courses/{course.slug}
                   </p>
                 )}
               </div>

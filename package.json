@@ -6,7 +6,9 @@
     "dev": "next dev --webpack",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "build:cf": "opennextjs-cloudflare build",
+    "deploy:cf": "opennextjs-cloudflare deploy"
   },
   "dependencies": {
     "@supabase/ssr": "^0.10.2",
@@ -19,20 +21,22 @@
     "@tiptap/pm": "^3.22.5",
     "@tiptap/react": "^3.22.5",
     "@tiptap/starter-kit": "^3.22.5",
-    "next": "16.2.4",
+    "next": "16.4.2",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "react-quill-new": "^3.8.3",
     "recharts": "^3.10.1"
   },
   "devDependencies": {
+    "@opennextjs/cloudflare": "1.20.12",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "16.2.4",
+    "eslint-config-next": "16.4.2",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "wrangler": "4.151.1"
   }
 }

@@ -161,7 +161,7 @@ export default async function HowToBuyPage() {
         REFUND_MODE === 'none' ? (
           <span>
             All sales are final. Please read our{' '}
-            <Link href="/refund-policy" style={{ color: 'var(--color-primary)', textDecoration: 'underline' }}>
+            <Link href="/refund" style={{ color: 'var(--color-primary)', textDecoration: 'underline' }}>
               Refund Policy
             </Link>{' '}
             before purchasing.
@@ -169,7 +169,7 @@ export default async function HowToBuyPage() {
         ) : (
           <span>
             We offer a 7-day money-back guarantee. Please read our{' '}
-            <Link href="/refund-policy" style={{ color: 'var(--color-primary)', textDecoration: 'underline' }}>
+            <Link href="/refund" style={{ color: 'var(--color-primary)', textDecoration: 'underline' }}>
               Refund Policy
             </Link>{' '}
             for details.
@@ -820,7 +820,7 @@ export default async function HowToBuyPage() {
               {REFUND_MODE === 'none' ? (
                 <span>
                   All sales are final. See our{' '}
-                  <Link href="/refund-policy" style={{ color: 'var(--color-primary)', textDecoration: 'underline' }}>
+                  <Link href="/refund" style={{ color: 'var(--color-primary)', textDecoration: 'underline' }}>
                     Refund Policy
                   </Link>
                   .
@@ -828,7 +828,7 @@ export default async function HowToBuyPage() {
               ) : (
                 <span>
                   7-day money-back guarantee. See our{' '}
-                  <Link href="/refund-policy" style={{ color: 'var(--color-primary)', textDecoration: 'underline' }}>
+                  <Link href="/refund" style={{ color: 'var(--color-primary)', textDecoration: 'underline' }}>
                     Refund Policy
                   </Link>
                   .

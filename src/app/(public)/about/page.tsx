@@ -1457,7 +1457,7 @@ export default async function AboutPage() {
               {[
                 { label: 'Terms of Service', href: '/terms' },
                 { label: 'Privacy Policy', href: '/privacy' },
-                { label: 'Refund Policy', href: '/refund-policy' },
+                { label: 'Refund Policy', href: '/refund' },
                 { label: 'Contact', href: '/contact' },
               ].map((lnk) => (
                 <Link

@@ -31,9 +31,10 @@ export async function generateMetadata({
   return {
     title: 'All Courses | PandaCourses',
     description: `Browse ${count} premium courses with instant Mega / Google Drive access. One payment, lifetime access.`,
-    robots: hasSearchOrSort
-      ? { index: false, follow: true }
-      : { index: true, follow: true },
+    robots: {
+      index: true,
+      follow: true,
+    },
     alternates: {
       canonical,
     },

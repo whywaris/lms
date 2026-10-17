@@ -133,7 +133,7 @@ export default async function CategoryPage({
           {courses.map((course) => (
             <Link
               key={course.id}
-              href={`/course/${course.slug}`}
+              href={`/courses/${course.slug}`}
               prefetch={false}
               style={{ textDecoration: 'none' }}
             >

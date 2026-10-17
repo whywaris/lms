@@ -24,7 +24,7 @@ export default function FAQ() {
         <span>
           7-day money back, as stated in the comparison table. For full details, please review our{' '}
           <Link
-            href="/refund-policy"
+            href="/refund"
             style={{
               color: 'var(--color-primary)',
               textDecoration: 'underline',

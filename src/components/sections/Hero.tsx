@@ -348,7 +348,7 @@ export default async function Hero() {
                   return (
                     <Link
                       key={course.id || idx}
-                      href={`/course/${course.slug}`}
+                      href={`/courses/${course.slug}`}
                       className="hero-collage-tile"
                       style={{
                         position: 'relative',

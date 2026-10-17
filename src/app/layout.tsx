@@ -1,14 +1,11 @@
 import '@/styles/tokens.css'
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
 import Script from 'next/script'
 import GoogleAnalytics from '@/components/analytics/GoogleAnalytics'
 import Clarity from '@/components/analytics/Clarity'
 import SourceTracker from '@/components/analytics/SourceTracker'
 import CookieConsent from '@/components/ui/CookieConsent'
 import './globals.css'
-
-const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Panda Courses – One Spot for Premium Courses',
@@ -50,7 +47,7 @@ export default function RootLayout({
           </>
         )}
       </head>
-      <body className={inter.className}>
+      <body>
         {children}
         <GoogleAnalytics />
         <Clarity />

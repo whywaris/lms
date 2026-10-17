@@ -376,7 +376,7 @@ export default async function NotFound() {
                 {latestCourses.map((course) => (
                   <Link
                     key={course.id}
-                    href={`/course/${course.slug}`}
+                    href={`/courses/${course.slug}`}
                     prefetch={false}
                     className="notfound-course-card"
                     style={{

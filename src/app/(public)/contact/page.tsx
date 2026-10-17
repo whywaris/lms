@@ -618,7 +618,7 @@ export default function ContactPage() {
                     </li>
                     <li>
                       <Link
-                        href="/refund-policy"
+                        href="/refund"
                         style={{
                           fontSize: '13px',
                           color: 'var(--color-primary, #6B4EFF)',
@@ -876,7 +876,7 @@ export default function ContactPage() {
               >
                 {refundFaqAnswer}{' '}
                 <Link
-                  href="/refund-policy"
+                  href="/refund"
                   style={{
                     color: 'var(--color-primary, #6B4EFF)',
                     textDecoration: 'underline',

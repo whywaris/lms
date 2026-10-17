@@ -61,7 +61,7 @@ export default async function CoursesSection() {
               {shuffled.map((course) => (
                 <Link
                   key={course.id}
-                  href={`/course/${course.slug}`}
+                  href={`/courses/${course.slug}`}
                   prefetch={false}
                   style={{ textDecoration: 'none', display: 'block' }}
                 >

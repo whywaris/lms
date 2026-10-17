@@ -153,7 +153,7 @@ export default function CoursesGrid({ courses, categories }: CoursesGridProps) {
             {paginated.map((course) => (
               <Link 
                 key={course.id} 
-                href={`/course/${course.slug}`}
+                href={`/courses/${course.slug}`}
                 prefetch={false}
                 style={{ textDecoration: 'none', display: 'block' }}
               >

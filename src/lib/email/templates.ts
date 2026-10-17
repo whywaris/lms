@@ -564,7 +564,7 @@ export function newCoursesTemplate({
   const courseListHtml = (courses || [])
     .slice(0, 4)
     .map((c) => {
-      const courseUrl = `${siteUrl}/course/${c.slug}`
+      const courseUrl = `${siteUrl}/courses/${c.slug}`
       const title = escapeHtml(c.course_name)
       const thumbnail = c.image_url
         ? `<img src="${c.image_url}" alt="${title}" width="140" height="90" style="width: 140px; height: 90px; object-fit: cover; border-radius: 8px; display: block;" />`
@@ -620,7 +620,7 @@ export function newCoursesTemplate({
   const text = `Hi ${displayName},\n\n` +
     `New courses have just been added to PandaCourses!\n\n` +
     (bodyText ? `${bodyText}\n\n` : '') +
-    courses.map(c => `- ${c.course_name}: ${siteUrl}/course/${c.slug}`).join('\n') +
+    courses.map(c => `- ${c.course_name}: ${siteUrl}/courses/${c.slug}`).join('\n') +
     `\n\nExplore all courses: ${siteUrl}/courses\n` +
     (unsubscribeUrl ? `\nUnsubscribe: ${unsubscribeUrl}` : '')
 

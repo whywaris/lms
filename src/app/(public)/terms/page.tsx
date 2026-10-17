@@ -96,7 +96,7 @@ export default function TermsOfServicePage() {
               '“Lifetime access” means access for as long as PandaCourses operates the platform;',
               <>
                 Refunds are governed by our{' '}
-                <Link href="/refund-policy">Refund Policy</Link>.
+                <Link href="/refund">Refund Policy</Link>.
               </>,
             ]}
           />
@@ -134,7 +134,7 @@ export default function TermsOfServicePage() {
             </svg>
             <span>
               Chargebacks and payment disputes are described in our{' '}
-              <Link href="/refund-policy">Refund Policy</Link>.
+              <Link href="/refund">Refund Policy</Link>.
             </span>
           </div>
         </>
@@ -267,7 +267,7 @@ export default function TermsOfServicePage() {
       content: (
         <p>
           We may suspend or end your access if you break these Terms, misuse the Site, share your account, or start a payment dispute without contacting us first. Refunds are governed by our{' '}
-          <Link href="/refund-policy">Refund Policy</Link>. You may stop using the Site at any time.
+          <Link href="/refund">Refund Policy</Link>. You may stop using the Site at any time.
         </p>
       ),
     },
