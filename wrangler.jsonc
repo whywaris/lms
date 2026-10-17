@@ -9,5 +9,13 @@
   "assets": {
     "directory": ".open-next/assets",
     "binding": "ASSETS"
+  },
+  "vars": {
+    "NEXT_PUBLIC_SUPABASE_URL": "https://ketoaurmckgsuzyygptp.supabase.co",
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY": "sb_publishable_0J2_kSXFuyjAcR8049J_Wg_tYDHMllT",
+    "NEXT_PUBLIC_SITE_URL": "https://pandacourses.com/",
+    "NEXT_PUBLIC_CLARITY_PROJECT_ID": "ylrbvkniw3",
+    "EMAIL_FROM": "PandaCourses <hello@pandacourses.com>",
+    "EMAIL_REPLY_TO": "support@pandacourses.com"
   }
 }
