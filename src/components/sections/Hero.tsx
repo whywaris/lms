@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { createClient } from '@/lib/supabase/server'
+import { createPublicClient } from '@/lib/supabase/server'
 
 interface CourseItem {
   id: string
@@ -46,7 +46,7 @@ function fisherYatesShuffle<T>(array: T[]): T[] {
 }
 
 export default async function Hero() {
-  const supabase = await createClient()
+  const supabase = createPublicClient()
 
   const [coursesRes, countRes] = await Promise.all([
     supabase
@@ -368,6 +368,7 @@ export default async function Hero() {
                         src={course.image_url}
                         alt={course.course_name}
                         loading={isEager ? 'eager' : 'lazy'}
+                        decoding="async"
                         {...(isEager ? { fetchPriority: 'high' } : {})}
                         width={320}
                         height={200}

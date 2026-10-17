@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server'
+import { createPublicClient } from '@/lib/supabase/server'
 import Link from 'next/link'
 
 function shuffleArray<T>(array: T[]): T[] {
@@ -11,7 +11,7 @@ function shuffleArray<T>(array: T[]): T[] {
 }
 
 export default async function CoursesSection() {
-  const supabase = await createClient()
+  const supabase = createPublicClient()
 
   const { data: courses } = await supabase
     .from('public_courses')
